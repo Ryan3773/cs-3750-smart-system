@@ -3,7 +3,7 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  // Tested Session Variables -- Test Passed
+  // Tested Session Variables -- Tests Passed
   
   // if (req.session.test === undefined) {
   //   console.log("Session key test not set");
