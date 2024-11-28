@@ -66,18 +66,30 @@
             </div>
           </header>
 
-        <main>
+          <main>
             <div class="container border rounded mt-5">
-                <form method="post">
+                <% if (typeof error !== 'undefined') { %>
+                    <div class="alert alert-danger" role="alert">
+                        <%= error %>
+                    </div>
+                <% } %>
+                <% if (typeof message !== 'undefined') { %>
+                    <div class="alert alert-success" role="alert">
+                        <%= message %>
+                    </div>
+                <% } %>
+                <form method="post" action="/apply">
+                    <!-- First and Last Name -->
                     <div class="row">
                         <div class="col">
                             <div class="form-floating m-3">
                                 <input
-                                type="text"
-                                class="form-control"
-                                name="firstName"
-                                id="firstName"
-                                placeholder="xxxxx"
+                                    type="text"
+                                    class="form-control"
+                                    name="firstName"
+                                    id="firstName"
+                                    placeholder="First Name"
+                                    required
                                 />
                                 <label for="firstName" class="form-label">First Name</label>
                             </div>  
@@ -85,180 +97,170 @@
                         <div class="col">
                             <div class="form-floating m-3">
                                 <input
-                                type="text"
-                                class="form-control"
-                                name="lastName"
-                                id="lastName"
-                                placeholder="xxxxx"
+                                    type="text"
+                                    class="form-control"
+                                    name="lastName"
+                                    id="lastName"
+                                    placeholder="Last Name"
+                                    required
                                 />
                                 <label for="lastName" class="form-label">Last Name</label>
                             </div>  
                         </div>
                     </div>
-
+    
+                    <!-- Date of Birth -->
                     <div class="row">
                         <div class="col">
                             <div class="form-floating m-3">
                                 <input
-                                type="text"
-                                class="form-control"
-                                name="email"
-                                id="email"
-                                placeholder="xxxxx"
+                                    type="date"
+                                    class="form-control"
+                                    name="dateOfBirth"
+                                    id="dateOfBirth"
+                                    placeholder="Date of Birth"
+                                    required
                                 />
-                                <label for="email" class="form-label">Email</label>
+                                <label for="dateOfBirth" class="form-label">Date of Birth</label>
                             </div>  
-                        </div> 
+                        </div>
                     </div>
-
+    
+                    <!-- Address -->
                     <div class="row">
                         <div class="col">
                             <div class="form-floating m-3">
                                 <input
-                                type="text"
-                                class="form-control"
-                                name="address"
-                                id="address"
-                                placeholder="xxxxx"
+                                    type="text"
+                                    class="form-control"
+                                    name="address"
+                                    id="address"
+                                    placeholder="Address"
+                                    required
                                 />
                                 <label for="address" class="form-label">Address</label>
                             </div>
                         </div> 
                     </div>
-
+    
+                    <!-- School Level and GPA -->
                     <div class="row">
                         <div class="col">
                             <div class="form-floating m-3">
                                 <input
-                                type="text"
-                                class="form-control"
-                                name="publicSchoolLevel"
-                                id="publicSchoolLevel"
-                                placeholder="xxxxx"
+                                    type="text"
+                                    class="form-control"
+                                    name="schoolLevel"
+                                    id="schoolLevel"
+                                    placeholder="School Level"
+                                    required
                                 />
-                                <label for="publicSchoolLevel" class="form-label">Public School Level</label>
+                                <label for="schoolLevel" class="form-label">School Level</label>
                             </div>  
                         </div>
                         <div class="col">
                             <div class="form-floating m-3">
                                 <input
-                                type="text"
-                                class="form-control"
-                                name="publicSchoolGPA"
-                                id="publicSchoolGPA"
-                                placeholder="xxxxx"
+                                    type="number"
+                                    step="0.01"
+                                    class="form-control"
+                                    name="publicSchoolGPA"
+                                    id="publicSchoolGPA"
+                                    placeholder="GPA"
+                                    required
                                 />
                                 <label for="publicSchoolGPA" class="form-label">Public School GPA</label>
                             </div>  
                         </div>
                     </div>
-
+    
+                    <!-- Annual Income -->
                     <div class="row">
                         <div class="col">
                             <div class="form-floating m-3">
                                 <input
-                                type="text"
-                                class="form-control"
-                                name="guardianOneFirstName"
-                                id="guardianOneFirstName"
-                                placeholder="xxxxx"
+                                    type="number"
+                                    step="0.01"
+                                    class="form-control"
+                                    name="annualIncome"
+                                    id="annualIncome"
+                                    placeholder="Annual Income"
+                                    required
                                 />
-                                <label for="guardianOneFirstName" class="form-label">Parent/Guardian 1 First Name</label>
-                            </div>
-                        </div> 
-                        <div class="col">
-                            <div class="form-floating m-3">
-                                <input
-                                type="text"
-                                class="form-control"
-                                name="guardianOneLastName"
-                                id="guardianOneLastName"
-                                placeholder="xxxxx"
-                                />
-                                <label for="guardianOneLastName" class="form-label">Parent/Guardian 1 Last Name</label>
-                            </div>
-                        </div> 
-                    </div>
-
-                    <div class="row">
-                        <div class="col">
-                            <div class="form-floating m-3">
-                                <input
-                                type="text"
-                                class="form-control"
-                                name="relationshipOne"
-                                id="relationshipOne"
-                                placeholder="xxxxx"
-                                />
-                                <label for="relationshipOne" class="form-label">Relationship to Parent/Guardian 1</label>
-                            </div>
-                        </div> 
-                        <div class="col">
-                            <div class="form-floating m-3">
-                                <input
-                                type="text"
-                                class="form-control"
-                                name="incomeOne"
-                                id="incomeOne"
-                                placeholder="xxxxx"
-                                />
-                                <label for="incomeOne" class="form-label">Parent/Guardian 1 Income</label>
-                            </div>
-                        </div> 
-                    </div>
-
-                    <div class="row">
-                        <div class="col">
-                            <div class="form-floating m-3">  
-                                <button class="btn btn-secondary" type="submit">Add a Parent/Guardian</button>
-                            </div>
+                                <label for="annualIncome" class="form-label">Annual Income</label>
+                            </div>  
                         </div>
                     </div>
-
+    
+                    <!-- Other Contact (Email) -->
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-floating m-3">
+                                <input
+                                    type="email"
+                                    class="form-control"
+                                    name="otherContact"
+                                    id="otherContact"
+                                    placeholder="Email"
+                                    required
+                                />
+                                <label for="otherContact" class="form-label">Email</label>
+                            </div>  
+                        </div> 
+                    </div>
+    
+                    <!-- Narrative -->
                     <div class="row">
                         <div class="col">
                             <div class="form-floating m-3">  
-                                <textarea class="form-control" id="narrative" name="narrative" placeholder="xxxxx"></textarea>
+                                <textarea 
+                                    class="form-control" 
+                                    id="narrative" 
+                                    name="narrative" 
+                                    placeholder="Why do you want to be in the program?"
+                                    required
+                                ></textarea>
                                 <label for="narrative" class="form-label">Narrative - Why do you want to be in the program?</label>
                             </div>
                         </div>
                     </div>
-
+    
+                    <!-- Transportation Assistance -->
                     <div class="row">
                         <div class="col">
-                            <div class="form-floating m-3">  
-                                <div class="form-check">
-                                    <input
-                                        class="form-check-input"
-                                        type="checkbox"
-                                        value="0"
-                                        id="transportation"
-                                    />
-                                    <label class="form-check-label" for="transportation"> Do you require Transportation Assistance? </label>
-                                </div>
+                            <div class="form-check m-3">  
+                                <input
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    name="needTransportationAssistance"
+                                    value="1"
+                                    id="transportation"
+                                />
+                                <label class="form-check-label" for="transportation"> Do you require Transportation Assistance? </label>
                             </div>
                         </div>
                     </div>
-
+    
+                    <!-- Meal Assistance -->
                     <div class="row">
                         <div class="col">
-                            <div class="form-floating m-3">  
-                                <div class="form-check">
-                                    <input
-                                        class="form-check-input"
-                                        type="checkbox"
-                                        value="0"
-                                        id="meal"
-                                    />
-                                    <label class="form-check-label" for="meal"> Do you require Meal Assistance? </label>
-                                </div>
+                            <div class="form-check m-3">  
+                                <input
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    name="needMealAssistance"
+                                    value="1"
+                                    id="meal"
+                                />
+                                <label class="form-check-label" for="meal"> Do you require Meal Assistance? </label>
                             </div>
                         </div>
                     </div>
-
+    
+                    <!-- Submit Button -->
                     <div class="row">
                         <div class="col">
-                            <div class="form-floating m-3">  
+                            <div class="m-3">  
                                 <button class="btn btn-secondary" type="submit">Submit Application</button>
                             </div>
                         </div>
