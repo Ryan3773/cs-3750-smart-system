@@ -76,58 +76,266 @@
             </header>
 
         <main>
-            <div class="row">
-                <div class="col">
-                    <div class="card border-info m-3" style="max-width: 18rem;">
-                        <div class="card-header">Status: Unread | Date Submitted: </div>
-                        <div class="card-body text-dark">
-                          <h5 class="card-title">Name Here</h5>
-                          <p class="card-text">Desc.</p>
-                          <a href="#" class="btn btn-secondary">More Details</a>
-                        </div>
+            <!-- If there are applications to place it goes in-->
+            <% if(locals.applications[0].length > 0) { %>
+                <!-- For Loop that loops the total amount of applications / 5 -->
+                <!-- Does this because I put a new row in every 5 applications-->
+                <% for(var i = 0; i < Math.ceil((locals.applications[0].length)/5); i++) { %>
+                    <div class="row">
+                        <!-- For Loop for each of the 5 applications in the row -->
+                        <% for(var j = 0; j < 5; j++) { %>
+                            <!-- If there are no more applications to place it ends -->
+                            <% if(locals.applications[0].length <= ((i * 5) + j)) { %>
+                                <% break; %>
+                                <!-- Creates the Card and fills the information dynamically -->
+                            <% } else { %>
+                                <div class="col">
+                                    <div class="card border-info m-3" style="max-width: 18rem;">
+                                        <div class="card-header"><%- locals.applications[0][((i * 5) + j)].ApplicationStatus %></div>
+                                        <div class="card-body text-dark">
+                                            <h5 class="card-title"><%- locals.applications[0][((i * 5) + j)].FirstName %> <%- locals.applications[0][((i * 5) + j)].LastName %></h5>
+                                            <p class="card-text"><%- locals.applications[0][((i * 5) + j)].Narrative %></p>
+                                            <!-- Button trigger for modal -->
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal<%- locals.applications[0][((i * 5) + j)].ApplicationID %>">
+                                                More Details
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Modal -->
+                                <!-- The Modal is a copy and pasted apply.ejs -->
+                                <!-- The fields are dynamically filled and are locked -->
+                                <!-- The Ids for the inputs are all unique as I stick the ApplicationID on the back -->
+                                <!-- The Value attributes store the info that is displayed to the user -->
+                                <div class="modal fade" id="modal<%- locals.applications[0][((i * 5) + j)].ApplicationID %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="#exampleModalLabel">Modal title</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="<%- locals.applications[0][((i * 5) + j)].ApplicationID %>" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                    <!-- First and Last Name -->
+                                               <div class="row">
+                                                <div class="col">
+                                                    <div class="form-floating m-3">
+                                                        <input
+                                                            type="text"
+                                                            class="form-control"
+                                                            name="firstName"
+                                                            id="firstName<%- locals.applications[0][((i * 5) + j)].ApplicationID %>"
+                                                            value="<%- locals.applications[0][((i * 5) + j)].FirstName %>"
+                                                            disabled
+                                                        />
+                                                        <label for="firstName<%- locals.applications[0][((i * 5) + j)].ApplicationID %>" class="form-label">First Name</label>
+                                                    </div>  
+                                                </div>
+                                                <div class="col">
+                                                    <div class="form-floating m-3">
+                                                        <input
+                                                            type="text"
+                                                            class="form-control"
+                                                            name="lastName"
+                                                            id="lastName<%- locals.applications[0][((i * 5) + j)].ApplicationID %>"
+                                                            value="<%- locals.applications[0][((i * 5) + j)].LastName %>"
+                                                            disabled
+                                                        />
+                                                        <label for="lastName<%- locals.applications[0][((i * 5) + j)].ApplicationID %>" class="form-label">Last Name</label>
+                                                    </div>  
+                                                </div>
+                                            </div>
+                            
+                                            <!-- Date of Birth -->
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div class="form-floating m-3">
+                                                        <!-- options gives us the formatting we want -->
+                                                        <!-- toLocaleDateString converts the raw output to a formatted output -->
+                                                        <input
+                                                        <% const options = { year: 'numeric', month: 'long', day: 'numeric' }; %>
+                                                            type="text"
+                                                            class="form-control"
+                                                            name="dateOfBirth"
+                                                            value="<%- (locals.applications[0][((i * 5) + j)].DateOfBirth).toLocaleDateString('en-US', options) %>"
+                                                            id="dateOfBirth<%- locals.applications[0][((i * 5) + j)].ApplicationID %>"
+                                                            disabled
+                                                        />
+                                                        <label for="dateOfBirth<%- locals.applications[0][((i * 5) + j)].ApplicationID %>" class="form-label">Date of Birth</label>
+                                                    </div>  
+                                                </div>
+                                            </div>
+                            
+                                            <!-- Address -->
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div class="form-floating m-3">
+                                                        <input
+                                                            type="text"
+                                                            class="form-control"
+                                                            name="address"
+                                                            id="address<%- locals.applications[0][((i * 5) + j)].ApplicationID %>"
+                                                            value="<%- locals.applications[0][((i * 5) + j)].Address %>"
+                                                            disabled
+                                                        />
+                                                        <label for="address<%- locals.applications[0][((i * 5) + j)].ApplicationID %>" class="form-label">Address</label>
+                                                    </div>
+                                                </div> 
+                                            </div>
+                            
+                                            <!-- School Level and GPA -->
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div class="form-floating m-3">
+                                                        <input
+                                                            type="text"
+                                                            class="form-control"
+                                                            name="schoolLevel"
+                                                            id="schoolLevel<%- locals.applications[0][((i * 5) + j)].ApplicationID %>"
+                                                            value="<%- locals.applications[0][((i * 5) + j)].SchoolLevel %>"
+                                                            disabled
+                                                        />
+                                                        <label for="schoolLevel<%- locals.applications[0][((i * 5) + j)].ApplicationID %>" class="form-label">School Level</label>
+                                                    </div>  
+                                                </div>
+                                                <div class="col">
+                                                    <div class="form-floating m-3">
+                                                        <input
+                                                            type="number"
+                                                            step="0.01"
+                                                            class="form-control"
+                                                            name="publicSchoolGPA"
+                                                            id="publicSchoolGPA<%- locals.applications[0][((i * 5) + j)].ApplicationID %>"
+                                                            value="<%- locals.applications[0][((i * 5) + j)].PublicSchoolGPA %>"
+                                                            disabled
+                                                        />
+                                                        <label for="publicSchoolGPA<%- locals.applications[0][((i * 5) + j)].ApplicationID %>" class="form-label">Public School GPA</label>
+                                                    </div>  
+                                                </div>
+                                            </div>
+                            
+                                            <!-- Annual Income -->
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div class="form-floating m-3">
+                                                        <input
+                                                            type="number"
+                                                            step="0.01"
+                                                            class="form-control"
+                                                            name="annualIncome"
+                                                            id="annualIncome<%- locals.applications[0][((i * 5) + j)].ApplicationID %>"
+                                                            value="<%- locals.applications[0][((i * 5) + j)].AnnualIncome %>"
+                                                            disabled
+                                                        />
+                                                        <label for="annualIncome<%- locals.applications[0][((i * 5) + j)].ApplicationID %>" class="form-label">Annual Income</label>
+                                                    </div>  
+                                                </div>
+                                            </div>
+                            
+                                            <!-- Other Contact (Email) -->
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div class="form-floating m-3">
+                                                        <input
+                                                            type="email"
+                                                            class="form-control"
+                                                            name="otherContact"
+                                                            id="otherContact<%- locals.applications[0][((i * 5) + j)].ApplicationID %>"
+                                                            value="<%- locals.applications[0][((i * 5) + j)].OtherContact %>"
+                                                            disabled
+                                                        />
+                                                        <label for="otherContact<%- locals.applications[0][((i * 5) + j)].ApplicationID %>" class="form-label">Email</label>
+                                                    </div>  
+                                                </div> 
+                                            </div>
+                            
+                                            <!-- Narrative -->
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div class="form-floating m-3">  
+                                                        <textarea 
+                                                            class="form-control" 
+                                                            id="narrative<%- locals.applications[0][((i * 5) + j)].ApplicationID %>" 
+                                                            name="narrative" 
+                                                            disabled
+                                                            style="height: 200px;"
+                                                        >
+                                                        <%- locals.applications[0][((i * 5) + j)].Narrative %>
+                                                        </textarea>
+                                                        <label for="narrative<%- locals.applications[0][((i * 5) + j)].ApplicationID %>" class="form-label">Narrative - Why do you want to be in the program?</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                            
+                                            <!-- Transportation Assistance -->
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div class="form-check m-3">
+                                                        <!-- The If Statement Checks if the box was checked and checks the box dynamically -->  
+                                                        <input
+                                                            class="form-check-input"
+                                                            type="checkbox"
+                                                            name="needTransportationAssistance"
+                                                            value="1"
+                                                            id="transportation<%- locals.applications[0][((i * 5) + j)].ApplicationID %>"
+                                                            disabled
+
+                                                            <% if(locals.applications[0][((i * 5) + j)].NeedTransportationAssistance == 1) { %>
+                                                                checked
+                                                            <% } %>
+                                                        />
+                                                        <label class="form-check-label" for="transportation<%- locals.applications[0][((i * 5) + j)].ApplicationID %>"> Do you require Transportation Assistance? </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                            
+                                            <!-- Meal Assistance -->
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div class="form-check m-3">  
+                                                        <!-- The If Statement Checks if the box was checked and checks the box dynamically -->  
+                                                        <input
+                                                            class="form-check-input"
+                                                            type="checkbox"
+                                                            name="needMealAssistance"
+                                                            value="1"
+                                                            id="meal<%- locals.applications[0][((i * 5) + j)].ApplicationID %>"
+                                                            disabled
+
+                                                            <% if(locals.applications[0][((i * 5) + j)].NeedMealAssistance == 1) { %>
+                                                                checked
+                                                            <% } %>
+                                                        />
+                                                        <label class="form-check-label" for="meal<%- locals.applications[0][((i * 5) + j)].ApplicationID %>"> Do you require Meal Assistance? </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <!-- Payload {Id = ApplicationId, action = Accept} -->
+                                                <form method="post">
+                                                    <button type="submit" class="btn btn-success">Accept</button>
+                                                    <input type="hidden" name="id" value="<%- locals.applications[0][((i * 5) + j)].ApplicationID %>" >
+                                                    <input type="hidden" name="action" value="Accept" >
+                                                </form>
+                                                <!-- Payload {Id = ApplicationId, action = Decline} -->
+                                                <form method="post">
+                                                    <button type="submit" class="btn btn-danger">Decline</button>
+                                                    <input type="hidden" name="id" value="<%- locals.applications[0][((i * 5) + j)].ApplicationID %>" >
+                                                    <input type="hidden" name="action" value="Decline" >
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <% } %>
+                        <% } %>
                     </div>
-                </div>
-                <div class="col">
-                    <div class="card border-info m-3" style="max-width: 18rem;">
-                        <div class="card-header">Status: Unread | Date Submitted: </div>
-                        <div class="card-body text-dark">
-                          <h5 class="card-title">Name Here</h5>
-                          <p class="card-text">Desc.</p>
-                          <a href="#" class="btn btn-secondary">More Details</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card border-info m-3" style="max-width: 18rem;">
-                        <div class="card-header">Status: Unread | Date Submitted: </div>
-                        <div class="card-body text-dark">
-                          <h5 class="card-title">Name Here</h5>
-                          <p class="card-text">Desc.</p>
-                          <a href="#" class="btn btn-secondary">More Details</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card border-info m-3" style="max-width: 18rem;">
-                        <div class="card-header">Status: Unread | Date Submitted: </div>
-                        <div class="card-body text-dark">
-                          <h5 class="card-title">Name Here</h5>
-                          <p class="card-text">Desc.</p>
-                          <a href="#" class="btn btn-secondary">More Details</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card border-info m-3" style="max-width: 18rem;">
-                        <div class="card-header">Status: Unread | Date Submitted: </div>
-                        <div class="card-body text-dark">
-                          <h5 class="card-title">Name Here</h5>
-                          <p class="card-text">Desc.</p>
-                          <a href="#" class="btn btn-secondary">More Details</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                <% } %>
+            <!-- If there are no Appilcations then the First If Statement goes here and nothing above is used-->
+            <% } else { %>
+                <p class="text-center">No applications need to be actioned</p>
+            <% } %>
         </main>
         <!-- Bootstrap JavaScript Libraries -->
         <script
