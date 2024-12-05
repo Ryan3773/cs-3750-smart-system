@@ -49,18 +49,8 @@
                         </div>
                         </a>
                     </li>
-                    <li style="display: grid; align-items: center;">
-                        <a href="adminfeedback" class="nav-link text-white">
-                        <div class="row">
-                            <span data-feather="message-square"></span>
-                        </div>
-                        <div class="row gy-1" style="text-align: center;">
-                            <span>Feedback</span>
-                        </div>
-                        </a>
-                    </li>
                     <li>
-                        <a href="/" class="nav-link text-white">
+                        <a href="logout" class="nav-link text-white">
                         <div class="row">
                             <span data-feather="log-out"></span>
                         </div>
@@ -113,7 +103,7 @@
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <h5 class="modal-title" id="#exampleModalLabel">Modal title</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="<%- locals.applications[0][((i * 5) + j)].ApplicationID %>" aria-label="Close"></button>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal<%- locals.applications[0][((i * 5) + j)].ApplicationID %>" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
                                                     <!-- First and Last Name -->
@@ -129,7 +119,7 @@
                                                             disabled
                                                         />
                                                         <label for="firstName<%- locals.applications[0][((i * 5) + j)].ApplicationID %>" class="form-label">First Name</label>
-                                                    </div>  
+                                                    </div>
                                                 </div>
                                                 <div class="col">
                                                     <div class="form-floating m-3">
