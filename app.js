@@ -9,15 +9,16 @@ var MySQLStore = require('express-mysql-session')(session);
 //Genreral Routers
 var indexRouter = require('./routes/index');
 var loginRouter = require('./routes/login');
+var logoutRouter = require('./routes/logout');
 var applyRouter = require('./routes/apply');
 
 //Admin Routers
 var adminManageRouter = require('./routes/adminmanage');
 var adminApplicationRouter = require('./routes/adminapplication');
-var adminFeedbackRouter = require('./routes/adminfeedback');
 
 //Instructor Routers
 var instructorAssessmentsRouter = require('./routes/instructorassessments');
+var instructorCoursesRouter = require('./routes/instructorcourses');
 var instructorAttendenceRouter = require('./routes/instructorattendence');
 var instructorCertificatesRouter = require('./routes/instructorcertificates');
 
@@ -74,14 +75,15 @@ app.use(function(req, res, next) {
 
 app.use('/', indexRouter);
 app.use('/login', loginRouter);
+app.use('/logout', logoutRouter);
 app.use('/apply', applyRouter);
 
 //Use Admin Pages
 app.use('/adminmanage', adminManageRouter);
 app.use('/adminapplication', adminApplicationRouter);
-app.use('/adminfeedback', adminFeedbackRouter);
 
 //Use Instructor Pages
+app.use('/instructorcourses', instructorCoursesRouter);
 app.use('/instructorassessments', instructorAssessmentsRouter);
 app.use('/instructorattendence', instructorAttendenceRouter);
 app.use('/instructorcertificates', instructorCertificatesRouter);
