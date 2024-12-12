@@ -86,64 +86,115 @@
         </header>
 
         <main>
-            <div class="row">
-                <div class="col">
-                    <div class="card border-info m-3" style="max-width: 18rem;">
-                        <div class="card-header">Assessment</div>
-                        <div class="card-body text-dark">
-                          <h5 class="card-title">English 1 Exam 1</h5>
-                          <p class="card-text">Desc.</p>
-                          <a href="#" class="btn btn-secondary">More Details</a>
-                        </div>
+            <% if(locals.assignments && locals.assignments[0].length > 0) { %>
+                <!-- Similar loop for applications -->
+                <!-- makes a new row for every 6 assignments in a course-->
+                <% for(var i = 0; i < Math.ceil((locals.assignments[0].length)/6); i++) { %>
+                    <div class="row">
+                        <% for(var j = 0; j < 6; j++) { %>
+                            <% if(locals.assignments[0].length <= ((i * 6) + j)) { %>
+                                <% break; %>
+                                <!-- Creates the Assignment Cards -->
+                            <% } else { %>
+                                <div class="col">
+                                    <div class="card border-info m-3" style="max-width: 18rem;">
+                                        <div class="card-header">Assessment</div>
+                                        <div class="card-body text-dark">
+                                          <h5 class="card-title"><%- locals.assignments[0][((i * 6) + j)].AssignmentName %></h5>
+                                          <p class="card-text"><%- locals.assignments[0][((i * 6) + j)].Description %></p>
+                                          <button type="button" class="btn btn-secondary mx-auto p-3 d-block" data-bs-toggle="modal" data-bs-target="#edit<%- locals.assignments[0][((i * 6) + j)].AssignmentID %>">Edit</button> 
+                                        </div>
+                                        <div class="card-footer text-center"><%- locals.assignments[0][((i * 6) + j)].PointsPossible %> Points</div>
+                                    </div>
+                                </div>
+
+                                <div class="modal fade" id="edit<%- locals.assignments[0][((i * 6) + j)].AssignmentID %>" tabindex="-1" aria-labelledby="exampleModalLabel<%- locals.assignments[0][((i * 6) + j)].AssignmentID %>" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="#exampleModalLabel1">Edit Assignment <%- locals.assignments[0][((i * 6) + j)].AssignmentName %></h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form method="POST">
+                                                    <input type="hidden" name="AssignmentID" value="<%= locals.assignments[0][(i * 6) + j].AssignmentID %>">
+                                                    <input type="hidden" name="action" value="edit_assignment">
+                                                    <div class="mb-3">
+                                                        <label for="AssignmentName<%= locals.assignments[0][(i * 6) + j].AssignmentID %>" class="form-label">Assignment Name</label>
+                                                        <input type="text" class="form-control" id="AssignmentName<%= locals.assignments[0][(i * 6) + j].AssignmentID %>" 
+                                                               name="AssignmentName" 
+                                                               value="<%= locals.assignments[0][(i * 6) + j].AssignmentName %>">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="Description<%= locals.assignments[0][(i * 6) + j].AssignmentID %>" class="form-label">Description</label>
+                                                        <textarea class="form-control" id="Description<%= locals.assignments[0][(i * 6) + j].AssignmentID %>" 
+                                                                  name="Description"><%= locals.assignments[0][(i * 6) + j].Description %></textarea>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="PointsPossible<%= locals.assignments[0][(i * 6) + j].AssignmentID %>" class="form-label">Points Possible</label>
+                                                        <input type="number" class="form-control" id="PointsPossible<%= locals.assignments[0][(i * 6) + j].AssignmentID %>" 
+                                                               name="PointsPossible" 
+                                                               value="<%= locals.assignments[0][(i * 6) + j].PointsPossible %>">
+                                                    </div>
+                                                        <button type="submit" class="btn btn-success">Save Changes</button>
+                                                </form>
+                                                <form method="POST" onsubmit="return confirm('Are you sure you want to delete this assignment?');">
+                                                    <input type="hidden" name="action" value="delete_assignment">
+                                                    <input type="hidden" name="AssignmentID" value="<%= locals.assignments[0][(i * 6) + j].AssignmentID %>">
+                                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <% } %>
+                        <% } %>
+                    </div>
+                <% } %>
+            <!-- If there are no Courses then the First If Statement goes here and nothing above is used-->
+            <% } else { %>
+                <p class="text-center">No Assignments created</p>
+            <% } %>
+
+
+            <div class="col">
+                <div class="card border-info m-4" style="max-width: 9rem;">
+                    <div class="card-body text-dark">
+                        <!-- Button trigger for modal -->
+                        <button type="button" class="btn btn-secondary mx-auto p-3 d-block" data-bs-toggle="modal" data-bs-target="#modal">
+                            <span data-feather="plus"></span>
+                        </button>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="card border-info m-3" style="max-width: 18rem;">
-                        <div class="card-header">Assessment</div>
-                        <div class="card-body text-dark">
-                          <h5 class="card-title">English 1 Exam 2</h5>
-                          <p class="card-text">Desc.</p>
-                          <a href="#" class="btn btn-secondary">More Details</a>
+            </div>
+
+            <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="#exampleModalLabel1">Create Assignment</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card border-info m-3" style="max-width: 18rem;">
-                        <div class="card-header">Assessment</div>
-                        <div class="card-body text-dark">
-                          <h5 class="card-title">English 1 Exam 3</h5>
-                          <p class="card-text">Desc.</p>
-                          <a href="#" class="btn btn-secondary">More Details</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card border-info m-3" style="max-width: 18rem;">
-                        <div class="card-header">Assessment</div>
-                        <div class="card-body text-dark">
-                          <h5 class="card-title">English 2 Exam 1</h5>
-                          <p class="card-text">Desc.</p>
-                          <a href="#" class="btn btn-secondary">More Details</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card border-info m-3" style="max-width: 18rem;">
-                        <div class="card-header">Assessment</div>
-                        <div class="card-body text-dark">
-                          <h5 class="card-title">English 2 Exam 2</h5>
-                          <p class="card-text">Desc.</p>
-                          <a href="#" class="btn btn-secondary">More Details</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card border-info m-3" style="max-width: 18rem;">
-                        <div class="card-header">Assessment</div>
-                        <div class="card-body text-dark">
-                          <h5 class="card-title">English 2 Exam 3</h5>
-                          <p class="card-text">Desc.</p>
-                          <a href="#" class="btn btn-secondary">More Details</a>
+                        <div class="modal-body">
+                            <form method="POST">
+                                <input type="hidden" name="action" value="create_assignment">
+                                <div class="mb-3">
+                                    <label for="AssignmentName" class="form-label">Assignment Name</label>
+                                    <input type="text" class="form-control" id="AssignmentName" 
+                                           name="AssignmentName" >
+                                </div>
+                                <div class="mb-3">
+                                    <label for="Description" class="form-label">Description</label>
+                                    <textarea class="form-control" id="Description" 
+                                              name="Description"></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="PointsPossible" class="form-label">Points Possible</label>
+                                    <input type="number" class="form-control" id="PointsPossible" 
+                                           name="PointsPossible">
+                                </div>
+                                    <button type="submit" class="btn btn-success">Create Assignment</button>
+                            </form>
                         </div>
                     </div>
                 </div>
