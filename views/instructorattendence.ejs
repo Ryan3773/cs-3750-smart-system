@@ -1,227 +1,283 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <title>Attendence</title>
-        <!-- Required meta tags -->
-        <meta charset="utf-8" />
-        <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, shrink-to-fit=no"
-        />
+<head>
+    <title>Attendance</title>
+    <meta charset="utf-8" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
 
-        <!-- Bootstrap CSS v5.2.1 -->
-        <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-            crossorigin="anonymous"
-        />
-        <link href="/stylesheets/header.css" rel="stylesheet">
-    </head>
-
-    <body>
-        <header>
-            <div class="px-3 py-2 bg-dark text-white">
-                <div class="container">
-                    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-                        <div class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
-                            <span>No Poor Among Us - Instructor</span>
-                        </div>
+    <!-- Bootstrap CSS v5.3.2 -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+        crossorigin="anonymous"
+    />
+    <link href="/stylesheets/header.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="px-3 py-2 bg-dark text-white">
+            <div class="container">
+                <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                    <div class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
+                        <span>No Poor Among Us - Instructor</span>
+                    </div>
             
-                        <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
-                            <li>
-                                <a href="instructorcourses" class="nav-link text-white">
-                                    <div class="row">
-                                        <span data-feather="book"></span>
-                                    </div>
-                                    <div class="row gy-1" style="text-align: center;">
-                                        <span>Courses</span>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="instructorassessments" class="nav-link text-white">
+                    <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
+                        <li>
+                            <a href="instructorcourses" class="nav-link text-white">
+                                <div class="row">
+                                    <span data-feather="book"></span>
+                                </div>
+                                <div class="row gy-1" style="text-align: center;">
+                                    <span>Courses</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="instructorassessments" class="nav-link text-white">
                                 <div class="row">
                                     <span data-feather="book-open"></span>
                                 </div>
                                 <div class="row gy-1" style="text-align: center;">
                                     <span>Assessments</span>
                                 </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="nav-link text-secondary">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="nav-link text-secondary">
                                 <div class="row">
                                     <span data-feather="users"></span>
                                 </div>
                                 <div class="row gy-1" style="text-align: center;">
-                                    <span>Attendence</span>
+                                    <span>Attendance</span>
                                 </div>
-                                </a>
-                            </li>
-                            <li style="display: grid; align-items: center;">
-                                <a href="instructorcertificates" class="nav-link text-white">
+                            </a>
+                        </li>
+                        <li style="display: grid; align-items: center;">
+                            <a href="instructorcertificates" class="nav-link text-white">
                                 <div class="row">
                                     <span data-feather="file-plus"></span>
                                 </div>
                                 <div class="row gy-1" style="text-align: center;">
                                     <span>Certificates</span>
                                 </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="logout" class="nav-link text-white">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="logout" class="nav-link text-white">
                                 <div class="row">
                                     <span data-feather="log-out"></span>
                                 </div>
                                 <div class="row gy-1" style="text-align: center;">
                                     <span>Log Out</span>
                                 </div>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </div>
-        </header>
+        </div>
+    </header>
 
-        <main>
-            <form>
+    <main class="container mt-4">
+        <!-- Debug lines: Uncomment if needed for troubleshooting 
+        <pre><%= JSON.stringify(locals.students, null, 2) %></pre>
+        <pre><%= JSON.stringify(allAttendance, null, 2) %></pre>
+        -->
+
+        <% if (locals.students && locals.students[0].length > 0) { %>
+            <% for (var i = 0; i < Math.ceil(locals.students[0].length / 6); i++) { %>
                 <div class="row">
-                    <div class="col">
-                        <div class="card border-info m-3" style="max-width: 18rem;">
-                            <div class="card-header" style="text-align: center;">Student Name</div>
-                            <div class="card-body text-dark">
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="form-floating m-2 p-3">  
-                                            <button class="btn btn-success"><span data-feather="check"></span></button>
-                                        </div> 
-                                    </div>
-                                    <div class="col">
-                                        <div class="form-floating m-2 p-3">  
-                                            <button class="btn btn-danger"><span data-feather="x"></span></button>
+                    <% for (var j = 0; j < 6; j++) { %>
+                        <% if (locals.students[0].length <= (i * 6 + j)) { break; } %>
+                        <% var student = locals.students[0][i * 6 + j]; %>
+                        <% var attendanceTaken = student.TodayAttendanceID; %>
+                        <div class="col">
+                            <div class="card border-info m-3" style="max-width: 18rem;">
+                                <div class="card-header text-center">
+                                    <%= student.FirstName %> <%= student.LastName %><br/>
+                                    Course: <%= student.Subject %>
+                                </div>
+                                <div class="card-body text-dark">
+                                    <% if (!attendanceTaken) { %>
+                                        <!-- No attendance record for today -->
+                                        <div class="row">
+                                            <div class="col">
+                                                <!-- Mark Present -->
+                                                <form method="post" action="/instructorattendence/record">
+                                                    <input type="hidden" name="action" value="mark_attendance">
+                                                    <input type="hidden" name="enrollmentID" value="<%= student.EnrollmentID %>">
+                                                    <input type="hidden" name="attendanceStatus" value="Present">
+                                                    <button class="btn btn-success" type="submit">
+                                                        <span data-feather="check"></span>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                            <div class="col">
+                                                <!-- Mark Absent -->
+                                                <form method="post" action="/instructorattendence/record">
+                                                    <input type="hidden" name="action" value="mark_attendance">
+                                                    <input type="hidden" name="enrollmentID" value="<%= student.EnrollmentID %>">
+                                                    <input type="hidden" name="attendanceStatus" value="Absent">
+                                                    <button class="btn btn-danger" type="submit">
+                                                        <span data-feather="x"></span>
+                                                    </button>
+                                                </form>
+                                            </div>
                                         </div>
-                                    </div>
+                                    <% } else { %>
+                                        <!-- Attendance record found -->
+                                        <div class="row mb-2">
+                                            <div class="col text-center">
+                                                <% if (student.TodayAttendanceStatus === 'Present') { %>
+                                                    <p class="text-success">Marked Present</p>
+                                                <% } else { %>
+                                                    <p class="text-danger">Marked Absent</p>
+                                                <% } %>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col text-center">
+                                                <!-- Edit Today's Attendance -->
+                                                <button class="btn btn-secondary me-2" type="button" data-bs-toggle="modal" data-bs-target="#editModal<%= student.TodayAttendanceID %>">
+                                                    Edit Attendance
+                                                </button>
+                                                <!-- View/Edit All Attendance -->
+                                                <button class="btn btn-info" type="button" data-bs-toggle="modal" data-bs-target="#viewAllModal<%= student.EnrollmentID %>">
+                                                    View/Edit All
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <!-- Modal for Editing Today's Attendance -->
+                                        <div class="modal fade" id="editModal<%= student.TodayAttendanceID %>" tabindex="-1" aria-labelledby="editModalLabel<%= student.TodayAttendanceID %>" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="editModalLabel<%= student.TodayAttendanceID %>">Edit Today's Attendance for <%= student.FirstName %> <%= student.LastName %></h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form method="post" action="/instructorattendence/record" class="mb-3">
+                                                            <input type="hidden" name="action" value="update_attendance">
+                                                            <input type="hidden" name="attendanceID" value="<%= student.TodayAttendanceID %>">
+                                                            <div class="mb-3">
+                                                                <label class="form-label">New Attendance Status</label>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="attendanceStatus" value="Present" <%= (student.TodayAttendanceStatus === 'Present')?'checked':'' %>>
+                                                                    <label class="form-check-label">Present</label>
+                                                                </div>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="attendanceStatus" value="Absent" <%= (student.TodayAttendanceStatus === 'Absent')?'checked':'' %>>
+                                                                    <label class="form-check-label">Absent</label>
+                                                                </div>
+                                                            </div>
+                                                            <button type="submit" class="btn btn-success">Save Changes</button>
+                                                        </form>
+                                                        <form method="post" action="/instructorattendence/record" onsubmit="return confirm('Are you sure you want to remove this attendance record?');">
+                                                            <input type="hidden" name="action" value="remove_attendance">
+                                                            <input type="hidden" name="enrollmentID" value="<%= student.EnrollmentID %>">
+                                                            <button type="submit" class="btn btn-danger">Remove Attendance</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Modal for Viewing/Editing All Attendance Records -->
+                                        <div class="modal fade" id="viewAllModal<%= student.EnrollmentID %>" tabindex="-1" aria-labelledby="viewAllModalLabel<%= student.EnrollmentID %>" aria-hidden="true">
+                                            <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="viewAllModalLabel<%= student.EnrollmentID %>">All Attendance Records for <%= student.FirstName %> <%= student.LastName %></h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <% var records = allAttendance[student.EnrollmentID]; %>
+                                                        <% if (records && records.length > 0) { %>
+                                                            <table class="table table-bordered">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Date</th>
+                                                                        <th>Status</th>
+                                                                        <th>Actions</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <% records.forEach(function(rec) {
+                                                                        let recDate = rec.Date instanceof Date ? rec.Date.toISOString().split('T')[0] : rec.Date;
+                                                                    %>
+                                                                        <tr>
+                                                                            <!-- Date -->
+                                                                            <td style="vertical-align: middle;">
+                                                                                <form method="post" action="/instructorattendence/record" class="row g-1 align-items-center">
+                                                                                    <input type="hidden" name="action" value="update_full_attendance">
+                                                                                    <input type="hidden" name="attendanceID" value="<%= rec.AttendanceID %>">
+                                                                                    <div class="col-auto">
+                                                                                        <input type="date" class="form-control" name="date" value="<%= recDate %>">
+                                                                                    </div>
+                                                                            </td>
+                                                                            <!-- Status -->
+                                                                            <td style="vertical-align: middle;">
+                                                                                <div class="col-auto">
+                                                                                    <select class="form-select" name="attendanceStatus">
+                                                                                        <option value="Present" <%= (rec.Status === 'Present')?'selected':'' %>>Present</option>
+                                                                                        <option value="Absent" <%= (rec.Status === 'Absent')?'selected':'' %>>Absent</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                            </td>
+                                                                            <!-- Actions -->
+                                                                            <td style="vertical-align: middle;">
+                                                                                <div class="col-auto d-flex">
+                                                                                    <button class="btn btn-success me-2" type="submit">Save</button>
+                                                                                </form>
+                                                                                <form method="post" action="/instructorattendence/record" onsubmit="return confirm('Are you sure you want to remove this record?');">
+                                                                                    <input type="hidden" name="action" value="remove_attendance_by_id">
+                                                                                    <input type="hidden" name="attendanceID" value="<%= rec.AttendanceID %>">
+                                                                                    <button class="btn btn-danger" type="submit">Remove</button>
+                                                                                </form>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                    <% }); %>
+                                                                </tbody>
+                                                            </table>
+                                                        <% } else { %>
+                                                            <p>No attendance records found for this student.</p>
+                                                        <% } %>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <% } %>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col">
-                        <div class="card border-info m-3" style="max-width: 18rem;">
-                            <div class="card-header" style="text-align: center;">Student Name</div>
-                            <div class="card-body text-dark">
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="form-floating m-2 p-3">  
-                                            <button class="btn btn-success"><span data-feather="check"></span></button>
-                                        </div> 
-                                    </div>
-                                    <div class="col">
-                                        <div class="form-floating m-2 p-3">  
-                                            <button class="btn btn-danger"><span data-feather="x"></span></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card border-info m-3" style="max-width: 18rem;">
-                            <div class="card-header" style="text-align: center;">Student Name</div>
-                            <div class="card-body text-dark">
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="form-floating m-2 p-3">  
-                                            <button class="btn btn-success"><span data-feather="check"></span></button>
-                                        </div> 
-                                    </div>
-                                    <div class="col">
-                                        <div class="form-floating m-2 p-3">  
-                                            <button class="btn btn-danger"><span data-feather="x"></span></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card border-info m-3" style="max-width: 18rem;">
-                            <div class="card-header" style="text-align: center;">Student Name</div>
-                            <div class="card-body text-dark">
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="form-floating m-2 p-3">  
-                                            <button class="btn btn-success"><span data-feather="check"></span></button>
-                                        </div> 
-                                    </div>
-                                    <div class="col">
-                                        <div class="form-floating m-2 p-3">  
-                                            <button class="btn btn-danger"><span data-feather="x"></span></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card border-info m-3" style="max-width: 18rem;">
-                            <div class="card-header" style="text-align: center;">Student Name</div>
-                            <div class="card-body text-dark">
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="form-floating m-2 p-3">  
-                                            <button class="btn btn-success"><span data-feather="check"></span></button>
-                                        </div> 
-                                    </div>
-                                    <div class="col">
-                                        <div class="form-floating m-2 p-3">  
-                                            <button class="btn btn-danger"><span data-feather="x"></span></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card border-info m-3" style="max-width: 18rem;">
-                            <div class="card-header" style="text-align: center;">Student Name</div>
-                            <div class="card-body text-dark">
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="form-floating m-2 p-3">  
-                                            <button class="btn btn-success"><span data-feather="check"></span></button>
-                                        </div> 
-                                    </div>
-                                    <div class="col">
-                                        <div class="form-floating m-2 p-3">  
-                                            <button class="btn btn-danger"><span data-feather="x"></span></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <% } %>
                 </div>
-            </form>
-        </main>
-        <!-- Bootstrap JavaScript Libraries -->
-        <script
-            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-            integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-            crossorigin="anonymous"
-        ></script>
+            <% } %>
+        <% } else { %>
+            <p class="text-center">No active students found for the selected course.</p>
+        <% } %>
+    </main>
 
-        <script
-            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
-            integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
-            crossorigin="anonymous"
-        ></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"
+    ></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+        crossorigin="anonymous"
+    ></script>
 
-        <!-- Icons -->
-        <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
-        <script>
-        feather.replace()
-        </script>
-    </body>
+    <!-- Icons -->
+    <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+    <script>feather.replace()</script>
+</body>
 </html>
