@@ -112,7 +112,7 @@
                                                     <input type="hidden" name="action" value="mark_attendance">
                                                     <input type="hidden" name="enrollmentID" value="<%= student.EnrollmentID %>">
                                                     <input type="hidden" name="attendanceStatus" value="Present">
-                                                    <button class="btn btn-success" type="submit">
+                                                    <button class="btn btn-success mx-auto p-3 d-block" type="submit">
                                                         <span data-feather="check"></span>
                                                     </button>
                                                 </form>
@@ -123,7 +123,7 @@
                                                     <input type="hidden" name="action" value="mark_attendance">
                                                     <input type="hidden" name="enrollmentID" value="<%= student.EnrollmentID %>">
                                                     <input type="hidden" name="attendanceStatus" value="Absent">
-                                                    <button class="btn btn-danger" type="submit">
+                                                    <button class="btn btn-danger mx-auto p-3 d-block" type="submit">
                                                         <span data-feather="x"></span>
                                                     </button>
                                                 </form>
@@ -143,11 +143,11 @@
                                         <div class="row">
                                             <div class="col text-center">
                                                 <!-- Edit Today's Attendance -->
-                                                <button class="btn btn-secondary me-2" type="button" data-bs-toggle="modal" data-bs-target="#editModal<%= student.TodayAttendanceID %>">
+                                                <button class="btn btn-secondary mx-auto p-2 d-block my-2" type="button" data-bs-toggle="modal" data-bs-target="#editModal<%= student.TodayAttendanceID %>">
                                                     Edit Attendance
                                                 </button>
                                                 <!-- View/Edit All Attendance -->
-                                                <button class="btn btn-info" type="button" data-bs-toggle="modal" data-bs-target="#viewAllModal<%= student.EnrollmentID %>">
+                                                <button class="btn btn-secondary mx-auto p-2 d-block my-2" type="button" data-bs-toggle="modal" data-bs-target="#viewAllModal<%= student.EnrollmentID %>">
                                                     View/Edit All
                                                 </button>
                                             </div>
