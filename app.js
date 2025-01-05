@@ -6,32 +6,32 @@ var logger = require('morgan');
 var session = require('express-session');
 var MySQLStore = require('express-mysql-session')(session);
 
-//Genreral Routers
+// General Routers
 var indexRouter = require('./routes/index');
 var loginRouter = require('./routes/login');
 var logoutRouter = require('./routes/logout');
 var applyRouter = require('./routes/apply');
 
-//Admin Routers
+// Admin Routers
 var adminManageRouter = require('./routes/adminmanage');
 var adminApplicationRouter = require('./routes/adminapplication');
 
-//Instructor Routers
+// Instructor Routers
 var instructorAssessmentsRouter = require('./routes/instructorassessments');
 var instructorCoursesRouter = require('./routes/instructorcourses');
 var instructorAttendenceRouter = require('./routes/instructorattendence');
 var instructorCertificatesRouter = require('./routes/instructorcertificates');
 var instructorGradebookRouter = require('./routes/instructorgradebook');
 
-//Social Worker Routers
+// Social Worker Routers
 var socialWorkerHistoryRouter = require('./routes/socialworkerhistory');
 var socialWorkerNotificationsRouter = require('./routes/socialworkernotifications');
 var socialWorkerScheduleRouter = require('./routes/socialworkerschedule');
 
-//Sponsor Router
+// Sponsor Router
 var sponsorPortalRouter = require('./routes/sponsorportal');
 
-//Owner Router
+// Owner Router
 var ownerPortalRouter = require('./routes/ownerportal');
 
 var app = express();
@@ -49,10 +49,8 @@ app.use(express.static(path.join(__dirname, "node_modules/bootstrap/dist/")));
 app.use(express.static(path.join(__dirname, "node_modules/bootstrap-icons/")));
 app.use(express.static(path.join(__dirname, "node_modules/crypto-js/")));
 
-//This will set up the database if it doesn't already exist
-var dbCon = require('./lib/database');
-
 // Session management to store cookies in a MySQL server (this has a bug, so we assist it by creating the database for it)
+var dbCon = require('./lib/database');
 var dbSessionPool = require('./lib/sessionPool.js');
 var sessionStore = new MySQLStore({}, dbSessionPool);
 
@@ -79,29 +77,27 @@ app.use('/login', loginRouter);
 app.use('/logout', logoutRouter);
 app.use('/apply', applyRouter);
 
-//Use Admin Pages
+// Use Admin Pages
 app.use('/adminmanage', adminManageRouter);
 app.use('/adminapplication', adminApplicationRouter);
 
-//Use Instructor Pages
+// Use Instructor Pages
 app.use('/instructorcourses', instructorCoursesRouter);
 app.use('/instructorassessments', instructorAssessmentsRouter);
 app.use('/instructorattendence', instructorAttendenceRouter);
 app.use('/instructorcertificates', instructorCertificatesRouter);
 app.use('/instructorgradebook', instructorGradebookRouter);
 
-//Use Social Worker Pages
+// Use Social Worker Pages
 app.use('/socialworkerhistory', socialWorkerHistoryRouter);
 app.use('/socialworkernotifications', socialWorkerNotificationsRouter);
 app.use('/socialworkerschedule', socialWorkerScheduleRouter);
 
-//Use Sponsor Page
+// Use Sponsor Page
 app.use('/sponsorportal', sponsorPortalRouter);
 
-//Use Owner Page
+// Use Owner Page
 app.use('/ownerportal', ownerPortalRouter);
-
-
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

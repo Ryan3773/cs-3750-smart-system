@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var dbCon = require('../lib/database');
+var PDFDocument = require('pdfkit');
 
 // Fetch active students and their available times
 router.get('/', function(req, res, next) {
@@ -77,6 +78,45 @@ router.post('/deleteAvailability', function(req, res, next) {
       throw err;
     } else {
       res.redirect('/socialworkerschedule');
+    }
+  });
+});
+
+// Handle printing schedule
+router.get('/printSchedule/:studentID', function(req, res, next) {
+  let studentID = req.params.studentID;
+
+  let sql = "CALL get_student_schedule(?)"; // Assuming you have a stored procedure for this
+  dbCon.query(sql, [studentID], function(err, result) {
+    if (err) {
+      throw err;
+    } else {
+      let schedule = result[0];
+
+      // Create a PDF document
+      let doc = new PDFDocument();
+
+      // Set response headers
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', 'attachment; filename=schedule.pdf');
+
+      // Pipe the PDF document to the response
+      doc.pipe(res);
+
+      // Add content to the PDF
+      doc.fontSize(20).text('Student Schedule', { align: 'center' });
+      doc.moveDown();
+
+      schedule.forEach(course => {
+        doc.fontSize(14).text(`Course: ${course.Subject}`);
+        doc.fontSize(12).text(`Instructor: ${course.InstructorName}`);
+        doc.fontSize(12).text(`Day: ${course.DayOfWeek}`);
+        doc.fontSize(12).text(`Time: ${course.StartTime} - ${course.EndTime}`);
+        doc.moveDown();
+      });
+
+      // Finalize the PDF and end the stream
+      doc.end();
     }
   });
 });
