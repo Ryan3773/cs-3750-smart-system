@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>Assessments</title>
+        <!-- Required meta tags -->
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
+
+        <!-- Bootstrap CSS v5.2.1 -->
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+            crossorigin="anonymous"
+        />
+        <link href="/stylesheets/header.css" rel="stylesheet">
+    </head>
+
+    <body>
+        <header>
+            <div class="px-3 py-2 bg-dark text-white">
+                <div class="container">
+                    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                        <div class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
+                            <span>No Poor Among Us - Instructor</span>
+                        </div>
+            
+                        <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
+                            <li>
+                                <a href="instructorcourses" class="nav-link text-white">
+                                    <div class="row">
+                                        <span data-feather="book"></span>
+                                    </div>
+                                    <div class="row gy-1" style="text-align: center;">
+                                        <span>Courses</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="instructorassessments" class="nav-link text-white">
+                                    <div class="row">
+                                        <span data-feather="book-open"></span>
+                                    </div>
+                                    <div class="row gy-1" style="text-align: center;">
+                                        <span>Assessments</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="nav-link text-secondary">
+                                    <div class="row">
+                                        <span data-feather="clipboard"></span>
+                                    </div>
+                                    <div class="row gy-1" style="text-align: center;">
+                                        <span>Gradebook</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="instructorattendence" class="nav-link text-white">
+                                    <div class="row">
+                                        <span data-feather="users"></span>
+                                    </div>
+                                    <div class="row gy-1" style="text-align: center;">
+                                        <span>Attendence</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li style="display: grid; align-items: center;">
+                                <a href="instructorcertificates" class="nav-link text-white">
+                                    <div class="row">
+                                        <span data-feather="file-plus"></span>
+                                    </div>
+                                    <div class="row gy-1" style="text-align: center;">
+                                        <span>Certificates</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="logout" class="nav-link text-white">
+                                    <div class="row">
+                                        <span data-feather="log-out"></span>
+                                    </div>
+                                    <div class="row gy-1" style="text-align: center;">
+                                        <span>Log Out</span>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <% if (Object.keys(students).length === 0 || assignments.length === 0) { %>
+                <div class="alert alert-warning text-center" role="alert">
+                    There's nothing to grade.
+                </div>
+            <% } else { %>
+                <form method="post">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Student Name</th>
+                                    <% assignments.forEach(assignment => { %>
+                                        <th><%= assignment.AssignmentName %></th>
+                                    <% }); %>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% Object.keys(students).forEach(enrollmentID => { %>
+                                    <tr>
+                                        <td><%= students[enrollmentID].StudentName %></td>
+                                        <% assignments.forEach(assignment => { %>
+                                            <td>
+                                                <input 
+                                                    type="hidden" 
+                                                    name="grades[<%= enrollmentID %>][<%= assignment.AssignmentID %>][EnrollmentID]" 
+                                                    value="<%= enrollmentID %>"
+                                                >
+                                                <input 
+                                                    type="hidden" 
+                                                    name="grades[<%= enrollmentID %>][<%= assignment.AssignmentID %>][AssignmentID]" 
+                                                    value="<%= assignment.AssignmentID %>"
+                                                >
+                                                <input 
+                                                    type="number" 
+                                                    class="form-control" 
+                                                    name="grades[<%= enrollmentID %>][<%= assignment.AssignmentID %>][Grade]" 
+                                                    value="<%= students[enrollmentID].Grades[assignment.AssignmentID] === '-' ? '' : students[enrollmentID].Grades[assignment.AssignmentID] %>"
+                                                    placeholder="-"
+                                                >
+                                            </td>
+                                        <% }); %>
+                                    </tr>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="text-center mt-4">
+                        <button class="btn btn-primary" type="submit">Submit All Grades</button>
+                    </div>
+                </form>
+            <% } %>
+        </main>
+        <!-- Bootstrap JavaScript Libraries -->
+        <script
+            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+            integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+            crossorigin="anonymous"
+        ></script>
+
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+            integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+            crossorigin="anonymous"
+        ></script>
+
+        <!-- Icons -->
+        <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+        <script>
+        feather.replace()
+        </script>
+    </body>
+</html>

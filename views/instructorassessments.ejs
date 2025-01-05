@@ -50,6 +50,16 @@
                                 </a>
                             </li>
                             <li>
+                                <a href="instructorgradebook" class="nav-link text-white">
+                                    <div class="row">
+                                        <span data-feather="clipboard"></span>
+                                    </div>
+                                    <div class="row gy-1" style="text-align: center;">
+                                        <span>Gradebook</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
                                 <a href="instructorattendence" class="nav-link text-white">
                                     <div class="row">
                                         <span data-feather="users"></span>
@@ -122,8 +132,8 @@
                                                     <div class="mb-3">
                                                         <label for="AssignmentName<%= locals.assignments[0][(i * 6) + j].AssignmentID %>" class="form-label">Assignment Name</label>
                                                         <input type="text" class="form-control" id="AssignmentName<%= locals.assignments[0][(i * 6) + j].AssignmentID %>" 
-                                                               name="AssignmentName" 
-                                                               value="<%= locals.assignments[0][(i * 6) + j].AssignmentName %>">
+                                                               name="AssignmentName"
+                                                               value="<%= locals.assignments[0][(i * 6) + j].AssignmentName %>" required>
                                                     </div>
                                                     <div class="mb-3">
                                                         <label for="Description<%= locals.assignments[0][(i * 6) + j].AssignmentID %>" class="form-label">Description</label>
@@ -134,7 +144,7 @@
                                                         <label for="PointsPossible<%= locals.assignments[0][(i * 6) + j].AssignmentID %>" class="form-label">Points Possible</label>
                                                         <input type="number" class="form-control" id="PointsPossible<%= locals.assignments[0][(i * 6) + j].AssignmentID %>" 
                                                                name="PointsPossible" 
-                                                               value="<%= locals.assignments[0][(i * 6) + j].PointsPossible %>">
+                                                               value="<%= locals.assignments[0][(i * 6) + j].PointsPossible %>" required>
                                                     </div>
                                                         <button type="submit" class="btn btn-success">Save Changes</button>
                                                 </form>
@@ -181,7 +191,7 @@
                                 <div class="mb-3">
                                     <label for="AssignmentName" class="form-label">Assignment Name</label>
                                     <input type="text" class="form-control" id="AssignmentName" 
-                                           name="AssignmentName" >
+                                           name="AssignmentName" required >
                                 </div>
                                 <div class="mb-3">
                                     <label for="Description" class="form-label">Description</label>
@@ -191,7 +201,7 @@
                                 <div class="mb-3">
                                     <label for="PointsPossible" class="form-label">Points Possible</label>
                                     <input type="number" class="form-control" id="PointsPossible" 
-                                           name="PointsPossible">
+                                           name="PointsPossible" required>
                                 </div>
                                     <button type="submit" class="btn btn-success">Create Assignment</button>
                             </form>

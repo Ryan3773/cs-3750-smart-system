@@ -49,11 +49,16 @@ router.post('/', function(req, res, next) {
   }
   else if(req.body.action == 'delete_assignment'){
     let AssignmentID = req.body.AssignmentID
-    let sql = "CALL delete_assignments(?)"
+    let sql = "CALL delete_StudentGrades(?)"
     dbCon.query(sql, [AssignmentID] , function(err, result){
       if(err) throw err;
-      res.redirect('instructorassessments')
+      sql = "CALL delete_assignments(?)"
+      dbCon.query(sql, [AssignmentID] , function(err, result){
+        if(err) throw err;
+        res.redirect('instructorassessments')
+      })
     })
+    
   }
   else if(req.body.action == 'create_assignment'){
     let Description = req.body.Description

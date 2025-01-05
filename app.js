@@ -21,6 +21,7 @@ var instructorAssessmentsRouter = require('./routes/instructorassessments');
 var instructorCoursesRouter = require('./routes/instructorcourses');
 var instructorAttendenceRouter = require('./routes/instructorattendence');
 var instructorCertificatesRouter = require('./routes/instructorcertificates');
+var instructorGradebookRouter = require('./routes/instructorgradebook');
 
 //Social Worker Routers
 var socialWorkerHistoryRouter = require('./routes/socialworkerhistory');
@@ -87,6 +88,7 @@ app.use('/instructorcourses', instructorCoursesRouter);
 app.use('/instructorassessments', instructorAssessmentsRouter);
 app.use('/instructorattendence', instructorAttendenceRouter);
 app.use('/instructorcertificates', instructorCertificatesRouter);
+app.use('/instructorgradebook', instructorGradebookRouter);
 
 //Use Social Worker Pages
 app.use('/socialworkerhistory', socialWorkerHistoryRouter);
