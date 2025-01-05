@@ -1,161 +1,133 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <title>Notifications</title>
-        <!-- Required meta tags -->
-        <meta charset="utf-8" />
-        <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, shrink-to-fit=no"
-        />
+<head>
+    <title>Social Worker Schedule</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-        <!-- Bootstrap CSS v5.2.1 -->
-        <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-            crossorigin="anonymous"
-        />
-        <link href="/stylesheets/header.css" rel="stylesheet">
-    </head>
-
-    <body>
-        <header>
-            <div class="px-3 py-2 bg-dark text-white">
-                <div class="container">
+    <!-- Bootstrap CSS v5.2.1 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+    <link href="/stylesheets/header.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="px-3 py-2 bg-dark text-white">
+            <div class="container">
                 <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
                     <div class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
-                    <span>No Poor Among Us - Social Worker</span>
+                        <span>No Poor Among Us - Social Worker</span>
                     </div>
-        
                     <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
-                    <li>
-                        <a href="socialworkernotifications" class="nav-link text-white">
-                        <div class="row">
-                            <span data-feather="message-square"></span>
-                        </div>
-                        <div class="row gy-1" style="text-align: center;">
-                            <span>Notifications</span>
-                        </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="socialworkerhistory" class="nav-link text-white">
-                        <div class="row">
-                            <span data-feather="clock"></span>
-                        </div>
-                        <div class="row gy-1" style="text-align: center;">
-                            <span>Social History</span>
-                        </div>
-                        </a>
-                    </li>
-                    <li style="display: grid; align-items: center;">
-                        <a href="#" class="nav-link text-secondary">
-                        <div class="row">
-                            <span data-feather="book"></span>
-                        </div>
-                        <div class="row gy-1" style="text-align: center;">
-                            <span>Schedule</span>
-                        </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="logout" class="nav-link text-white">
-                        <div class="row">
-                            <span data-feather="log-out"></span>
-                        </div>
-                        <div class="row gy-1" style="text-align: center;">
-                            <span>Log Out</span>
-                        </div>
-                        </a>
-                    </li>
+                        <li>
+                            <a href="socialworkernotifications" class="nav-link text-white">
+                                <div class="row">
+                                    <span data-feather="message-square"></span>
+                                </div>
+                                <div class="row gy-1" style="text-align: center;">
+                                    <span>Notifications</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li style="display: grid; align-items: center;">
+                            <a href="socialworkerschedule" class="nav-link text-secondary">
+                                <div class="row">
+                                    <span data-feather="book"></span>
+                                </div>
+                                <div class="row gy-1" style="text-align: center;">
+                                    <span>Schedule</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="logout" class="nav-link text-white">
+                                <div class="row">
+                                    <span data-feather="log-out"></span>
+                                </div>
+                                <div class="row gy-1" style="text-align: center;">
+                                    <span>Log Out</span>
+                                </div>
+                            </a>
+                        </li>
                     </ul>
                 </div>
-                </div>
             </div>
-            </header>
+        </div>
+    </header>
 
-        <main>
-            <div class="row">
-                <div class="col">
+    <main class="container mt-4">
+        <div class="row">
+            <% students.forEach(student => { %>
+                <div class="col-md-4">
                     <div class="card border-info m-3" style="max-width: 18rem;">
-                        <div class="card-header">Student Name</div>
+                        <div class="card-header"><%= student.FirstName %> <%= student.LastName %></div>
                         <div class="card-body text-dark">
-                        <h5 class="card-title">Available Times:</h5>
-                          <p class="card-text">Time</p>
-                          <p class="card-text">Time</p>
+                            <h5 class="card-title">Available Times:</h5>
+                            <p class="card-text"><%= student.AvailableTimes %></p>
+                            <button class="btn btn-secondary mt-2" data-bs-toggle="modal" data-bs-target="#editAvailabilityModal<%= student.StudentID %>">Edit Availability</button>
+                            <form method="post" action="/socialworkerschedule/enroll">
+                                <input type="hidden" name="studentID" value="<%= student.StudentID %>">
+                                <div class="form-group">
+                                    <label for="courseNumber">Course</label>
+                                    <select class="form-control" id="courseNumber" name="courseNumber" required>
+                                        <% courses.forEach(course => { %>
+                                            <% if (!student.AvailableTimes || student.AvailableTimes.includes(course.DayOfWeek)) { %>
+                                                <option value="<%= course.CourseNumber %>"><%= course.Subject %> - <%= course.InstructorName %></option>
+                                            <% } %>
+                                        <% }); %>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-success mt-2">Enroll</button>
+                            </form>
                         </div>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="card border-info m-3" style="max-width: 18rem;">
-                        <div class="card-header">Student Name</div>
-                        <div class="card-body text-dark">
-                        <h5 class="card-title">Available Times:</h5>
-                          <p class="card-text">Time</p>
-                          <p class="card-text">Time</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card border-info m-3" style="max-width: 18rem;">
-                        <div class="card-header">Student Name</div>
-                        <div class="card-body text-dark">
-                        <h5 class="card-title">Available Times:</h5>
-                          <p class="card-text">Time</p>
-                          <p class="card-text">Time</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card border-info m-3" style="max-width: 18rem;">
-                        <div class="card-header">Student Name</div>
-                        <div class="card-body text-dark">
-                        <h5 class="card-title">Available Times:</h5>
-                          <p class="card-text">Time</p>
-                          <p class="card-text">Time</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card border-info m-3" style="max-width: 18rem;">
-                        <div class="card-header">Student Name</div>
-                        <div class="card-body text-dark">
-                        <h5 class="card-title">Available Times:</h5>
-                          <p class="card-text">Time</p>
-                          <p class="card-text">Time</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card border-info m-3" style="max-width: 18rem;">
-                        <div class="card-header">Student Name</div>
-                        <div class="card-body text-dark">
-                        <h5 class="card-title">Available Times:</h5>
-                          <p class="card-text">Time</p>
-                          <p class="card-text">Time</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </main>
-        <!-- Bootstrap JavaScript Libraries -->
-        <script
-            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-            integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-            crossorigin="anonymous"
-        ></script>
 
-        <script
-            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
-            integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
-            crossorigin="anonymous"
-        ></script>
+                <!-- Modal for Editing Availability -->
+                <div class="modal fade" id="editAvailabilityModal<%= student.StudentID %>" tabindex="-1" aria-labelledby="editAvailabilityModalLabel<%= student.StudentID %>" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editAvailabilityModalLabel<%= student.StudentID %>">Edit Availability for <%= student.FirstName %> <%= student.LastName %></h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form method="post" action="/socialworkerschedule/updateAvailability">
+                                    <input type="hidden" name="availabilityID" value="<%= student.AvailabilityID %>">
+                                    <input type="hidden" name="studentID" value="<%= student.StudentID %>">
+                                    <div class="mb-3">
+                                        <label for="dayOfWeek" class="form-label">Day of the Week</label>
+                                        <input type="text" class="form-control" id="dayOfWeek" name="dayOfWeek" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="startTime" class="form-label">Start Time</label>
+                                        <input type="time" class="form-control" id="startTime" name="startTime" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="endTime" class="form-label">End Time</label>
+                                        <input type="time" class="form-control" id="endTime" name="endTime" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-success">Save Changes</button>
+                                </form>
+                                <form method="post" action="/socialworkerschedule/deleteAvailability" onsubmit="return confirm('Are you sure you want to delete this availability?');">
+                                    <input type="hidden" name="availabilityID" value="<%= student.AvailabilityID %>">
+                                    <input type="hidden" name="studentID" value="<%= student.StudentID %>">
+                                    <button type="submit" class="btn btn-danger mt-2">Delete Availability</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
+    </main>
 
-        <!-- Icons -->
-        <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
-        <script>
-        feather.replace()
-        </script>
-    </body>
+    <!-- Bootstrap JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+    <script>feather.replace()</script>
+</body>
 </html>
