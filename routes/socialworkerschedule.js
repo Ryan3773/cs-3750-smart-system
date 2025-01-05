@@ -11,7 +11,7 @@ router.get('/', function(req, res, next) {
       throw err;
     } else {
       let students = result[0];
-      let sqlCourses = "CALL get_all_courses_with_instructors()"; // Assuming you have a stored procedure for this
+      let sqlCourses = "CALL get_all_courses_with_instructors()";
       dbCon.query(sqlCourses, function(err, resultCourses) {
         if (err) {
           throw err;
@@ -86,7 +86,7 @@ router.post('/deleteAvailability', function(req, res, next) {
 router.get('/printSchedule/:studentID', function(req, res, next) {
   let studentID = req.params.studentID;
 
-  let sql = "CALL get_student_schedule(?)"; // Assuming you have a stored procedure for this
+  let sql = "CALL get_student_schedule(?)";
   dbCon.query(sql, [studentID], function(err, result) {
     if (err) {
       throw err;
