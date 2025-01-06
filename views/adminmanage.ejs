@@ -66,58 +66,139 @@
             </header>
 
         <main>
-            <div class="row">
-                <div class="col">
-                    <div class="card border-danger m-3" style="max-width: 18rem;">
-                        <div class="card-header">Admin</div>
-                        <div class="card-body text-dark">
-                          <h5 class="card-title">Name Here</h5>
-                          <p class="card-text">Desc.</p>
-                          <a href="#" class="btn btn-secondary">More Details</a>
-                        </div>
-                    </div>
+            <!-- For Loop that loops the total amount of applications / 5 -->
+            <!-- Does this because I put a new row in every 5 applications-->
+            <% for(var i = 0; i < Math.ceil((locals.users.length)/5); i++) { %>
+                <div class="row">
+                    <!-- For Loop for each of the 5 applications in the row -->
+                    <% for(var j = 0; j < 5; j++) { %>
+                        <!-- If there are no more applications to place it ends -->
+                        <% if(locals.users.length <= ((i * 5) + j)) { %>
+                            <% break; %>
+                            <!-- Creates the Card and fills the information dynamically -->
+                        <% } else { %>
+                            <% if(locals.users[((i * 5) + j)].UserType == "Admin" && locals.god == true) { %>
+                                <div class="col">
+                                    <div class="card border-danger m-3" style="max-width: 18rem;">
+                                        <div class="card-header">Admin</div>
+                                        <div class="card-body text-dark">
+                                        <h5 class="card-title"><%- locals.users[((i * 5) + j)].FirstName %>  <%- locals.users[((i * 5) + j)].LastName %></h5>
+                                        <p class="card-text"><%- locals.users[((i * 5) + j)].Email %></p>
+                                        <!-- Button trigger for modal -->
+                                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modal<%- locals.users[((i * 5) + j)].UserID %>">
+                                            More Details
+                                        </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            <% } else if(locals.users[((i * 5) + j)].UserType == "Instructor") { %>
+                                <div class="col">
+                                    <div class="card border-success m-3" style="max-width: 18rem;">
+                                        <div class="card-header">Instructor</div>
+                                        <div class="card-body text-dark">
+                                        <h5 class="card-title"><%- locals.users[((i * 5) + j)].FirstName %>  <%- locals.users[((i * 5) + j)].LastName %></h5>
+                                        <p class="card-text"><%- locals.users[((i * 5) + j)].Email %></p>
+                                        <!-- Button trigger for modal -->
+                                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modal<%- locals.users[((i * 5) + j)].UserID %>">
+                                            More Details
+                                        </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            <% } else if(locals.users[((i * 5) + j)].UserType == "SocialWorker") { %>
+                                <div class="col">
+                                    <div class="card border-info m-3" style="max-width: 18rem;">
+                                        <div class="card-header">Social Worker</div>
+                                        <div class="card-body text-dark">
+                                        <h5 class="card-title"><%- locals.users[((i * 5) + j)].FirstName %>  <%- locals.users[((i * 5) + j)].LastName %></h5>
+                                        <p class="card-text"><%- locals.users[((i * 5) + j)].Email %></p>
+                                        <!-- Button trigger for modal -->
+                                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modal<%- locals.users[((i * 5) + j)].UserID %>">
+                                            More Details
+                                        </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            <% } else if(locals.users[((i * 5) + j)].UserType == "Sponsor") { %>
+                                <div class="col">
+                                    <div class="card border-warning m-3" style="max-width: 18rem;">
+                                        <div class="card-header">Sponsor</div>
+                                        <div class="card-body text-dark">
+                                        <h5 class="card-title"><%- locals.users[((i * 5) + j)].FirstName %>  <%- locals.users[((i * 5) + j)].LastName %></h5>
+                                        <p class="card-text"><%- locals.users[((i * 5) + j)].Email %></p>
+                                        <!-- Button trigger for modal -->
+                                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modal<%- locals.users[((i * 5) + j)].UserID %>">
+                                            More Details
+                                        </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            <% } else if(locals.users[((i * 5) + j)].UserType == "Owner") { %>
+                                <div class="col">
+                                    <div class="card border-primary m-3" style="max-width: 18rem;">
+                                        <div class="card-header">Owner</div>
+                                        <div class="card-body text-dark">
+                                        <h5 class="card-title"><%- locals.users[((i * 5) + j)].FirstName %>  <%- locals.users[((i * 5) + j)].LastName %></h5>
+                                        <p class="card-text"><%- locals.users[((i * 5) + j)].Email %></p>
+                                        <!-- Button trigger for modal -->
+                                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modal<%- locals.users[((i * 5) + j)].UserID %>">
+                                            More Details
+                                        </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            <% } %>
+
+                            <div class="modal fade" id="modal<%- locals.users[((i * 5) + j)].UserID %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="#exampleModalLabel">Manage <%- locals.users[((i * 5) + j)].FirstName %>  <%- locals.users[((i * 5) + j)].LastName %></h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal<%- locals.users[((i * 5) + j)].UserID %>" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form method="post">
+                                                <div class="row">
+                                                    <div class="col m-3">
+                                                        <select class="form-select" aria-label="Default select example" name="NewUserType">
+                                                            <option selected>Select New User Type</option>
+                                                            <option value="Admin">Admin</option>
+                                                            <option value="Instructor">Instructor</option>
+                                                            <option value="SocialWorker">SocialWorker</option>
+                                                            <option value="Sponsor">Sponsor</option>
+                                                            <option value="Owner">Owner</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col">
+                                                        <div class="m-3">  
+                                                            <button class="btn btn-danger" type="submit">Change User Type</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <input type="hidden" name="action" value="ChangeUserType" >
+                                                <input type="hidden" name="id" value="<%- locals.users[((i * 5) + j)].UserID %>" >
+                                            </form>
+                                            <form method="post">
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <div class="m-3">  
+                                                            <button class="btn btn-danger" type="submit">Remove User</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <input type="hidden" name="action" value="RemoveUser" >
+                                                <input type="hidden" name="id" value="<%- locals.users[((i * 5) + j)].UserID %>" >
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <% } %>
+                    <% } %>
                 </div>
-                <div class="col">
-                    <div class="card border-success m-3" style="max-width: 18rem;">
-                        <div class="card-header">Instructor</div>
-                        <div class="card-body text-dark">
-                          <h5 class="card-title">Name Here</h5>
-                          <p class="card-text">Desc.</p>
-                          <a href="#" class="btn btn-secondary">More Details</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card border-warning m-3" style="max-width: 18rem;">
-                        <div class="card-header">Sponsor</div>
-                        <div class="card-body text-dark">
-                          <h5 class="card-title">Name Here</h5>
-                          <p class="card-text">Desc.</p>
-                          <a href="#" class="btn btn-secondary">More Details</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card border-primary m-3" style="max-width: 18rem;">
-                        <div class="card-header">Owner</div>
-                        <div class="card-body text-dark">
-                          <h5 class="card-title">Name Here</h5>
-                          <p class="card-text">Desc.</p>
-                          <a href="#" class="btn btn-secondary">More Details</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card border-info m-3" style="max-width: 18rem;">
-                        <div class="card-header">Social Worker</div>
-                        <div class="card-body text-dark">
-                          <h5 class="card-title">Name Here</h5>
-                          <p class="card-text">Desc.</p>
-                          <a href="#" class="btn btn-secondary">More Details</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <% } %>
         </main>
         <!-- Bootstrap JavaScript Libraries -->
         <script
