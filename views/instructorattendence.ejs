@@ -58,7 +58,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="nav-link text-secondary">
+                            <a href="instructorattendence" class="nav-link text-secondary">
                                 <div class="row">
                                     <span data-feather="users"></span>
                                 </div>
@@ -67,7 +67,7 @@
                                 </div>
                             </a>
                         </li>
-                        <li style="display: grid; align-items: center;">
+                        <li>
                             <a href="instructorcertificates" class="nav-link text-white">
                                 <div class="row">
                                     <span data-feather="file-plus"></span>
@@ -145,8 +145,12 @@
                                             <div class="col text-center">
                                                 <% if (student.TodayAttendanceStatus === 'Present') { %>
                                                     <p class="text-success">Marked Present</p>
-                                                <% } else { %>
+                                                <% } else if (student.TodayAttendanceStatus === 'Absent') { %>
                                                     <p class="text-danger">Marked Absent</p>
+                                                <% } else if (student.TodayAttendanceStatus === 'Excused') { %>
+                                                    <p class="text-warning">Marked Excused</p>
+                                                <% } else if (student.TodayAttendanceStatus === 'Inexcused') { %>
+                                                    <p class="text-warning">Marked Inexcused</p>
                                                 <% } %>
                                             </div>
                                         </div>
@@ -184,6 +188,14 @@
                                                                 <div class="form-check">
                                                                     <input class="form-check-input" type="radio" name="attendanceStatus" value="Absent" <%= (student.TodayAttendanceStatus === 'Absent')?'checked':'' %>>
                                                                     <label class="form-check-label">Absent</label>
+                                                                </div>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="attendanceStatus" value="Excused" <%= (student.TodayAttendanceStatus === 'Excused')?'checked':'' %>>
+                                                                    <label class="form-check-label">Excused</label>
+                                                                </div>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="attendanceStatus" value="Inexcused" <%= (student.TodayAttendanceStatus === 'Inexcused')?'checked':'' %>>
+                                                                    <label class="form-check-label">Inexcused</label>
                                                                 </div>
                                                             </div>
                                                             <button type="submit" class="btn btn-success">Save Changes</button>
@@ -237,6 +249,8 @@
                                                                                     <select class="form-select" name="attendanceStatus">
                                                                                         <option value="Present" <%= (rec.Status === 'Present')?'selected':'' %>>Present</option>
                                                                                         <option value="Absent" <%= (rec.Status === 'Absent')?'selected':'' %>>Absent</option>
+                                                                                        <option value="Excused" <%= (rec.Status === 'Excused')?'selected':'' %>>Excused</option>
+                                                                                        <option value="Inexcused" <%= (rec.Status === 'Inexcused')?'selected':'' %>>Inexcused</option>
                                                                                     </select>
                                                                                 </div>
                                                                             </td>
