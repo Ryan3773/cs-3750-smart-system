@@ -52,68 +52,46 @@
     </header>
 
     <main>
-        <div class="row">
-            <div class="col">
-                <div class="card border-info m-3" style="max-width: 18rem;">
-                    <div class="card-header">Report</div>
-                    <div class="card-body text-dark">
-                      <h5 class="card-title">Student Name</h5>
-                      <p class="card-text">Desc.</p>
-                      <a href="#" class="btn btn-secondary">More Details</a>
-                    </div>
-                </div>
+
+      <% if(students && students.length > 0) { %>
+        <!-- Similar loop for applications -->
+        <!-- makes a new row for every 6 assignments in a course-->
+        <% for(var i = 0; i < Math.ceil((locals.students.length)/6); i++) { %>
+            <div class="row">
+                <% for(var j = 0; j < 6; j++) { %>
+                    <% if(locals.students.length <= ((i * 6) + j)) { %>
+                        <% break; %>
+                        <!-- Creates the Assignment Cards -->
+                    <% } else { %>
+                        <div class="col">
+                            <div class="card border-info m-3" style="max-width: 18rem;">
+                                <div class="card-header"><%- locals.students[((i * 6) + j)].name %></div>
+                                <div class="card-body text-dark">
+                                  <h6 class="card-title">Courses</h6>
+                                  <ul>
+                                      <% if (students[(i * 6) + j].courses.length > 0) { %>
+                                          <% students[(i * 6) + j].courses.forEach(function(course) { %>
+                                              <li>
+                                                  <strong><%= course.name %>:</strong> 
+                                                  <%= course.certificate === '1' ? 'Complete' : 'In Progress' %>
+                                              </li>
+                                          <% }); %>
+                                      <% } else { %>
+                                          <li>No courses available</li>
+                                      <% } %>
+                                  </ul>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    <% } %>
+                <% } %>
             </div>
-            <div class="col">
-                <div class="card border-info m-3" style="max-width: 18rem;">
-                    <div class="card-header">Report</div>
-                    <div class="card-body text-dark">
-                      <h5 class="card-title">Student Name</h5>
-                      <p class="card-text">Desc.</p>
-                      <a href="#" class="btn btn-secondary">More Details</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card border-info m-3" style="max-width: 18rem;">
-                    <div class="card-header">Report</div>
-                    <div class="card-body text-dark">
-                      <h5 class="card-title">Student Name</h5>
-                      <p class="card-text">Desc.</p>
-                      <a href="#" class="btn btn-secondary">More Details</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card border-info m-3" style="max-width: 18rem;">
-                    <div class="card-header">Report</div>
-                    <div class="card-body text-dark">
-                      <h5 class="card-title">Student Name</h5>
-                      <p class="card-text">Desc.</p>
-                      <a href="#" class="btn btn-secondary">More Details</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card border-info m-3" style="max-width: 18rem;">
-                    <div class="card-header">Report</div>
-                    <div class="card-body text-dark">
-                      <h5 class="card-title">Student Name</h5>
-                      <p class="card-text">Desc.</p>
-                      <a href="#" class="btn btn-secondary">More Details</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card border-info m-3" style="max-width: 18rem;">
-                    <div class="card-header">Report</div>
-                    <div class="card-body text-dark">
-                      <h5 class="card-title">Student Name</h5>
-                      <p class="card-text">Desc.</p>
-                      <a href="#" class="btn btn-secondary">More Details</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <% } %>
+    <% } else { %>
+        <p class="text-center">No Students</p>
+    <% } %>
+
     </main>
     <!-- Bootstrap JavaScript Libraries -->
     <script
