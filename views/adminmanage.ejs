@@ -164,7 +164,7 @@
                                                             <option selected>Select New User Type</option>
                                                             <option value="Admin">Admin</option>
                                                             <option value="Instructor">Instructor</option>
-                                                            <option value="SocialWorker">SocialWorker</option>
+                                                            <option value="SocialWorker">Social Worker</option>
                                                             <option value="Sponsor">Sponsor</option>
                                                             <option value="Owner">Owner</option>
                                                         </select>
@@ -199,6 +199,115 @@
                     <% } %>
                 </div>
             <% } %>
+
+            <div class="col">
+                <div class="card border-info m-4" style="max-width: 9rem;">
+                    <div class="card-body text-dark">
+                        <!-- Button trigger for modal -->
+                        <button type="button" class="btn btn-secondary mx-auto p-3 d-block" data-bs-toggle="modal" data-bs-target="#modal">
+                            <span data-feather="plus"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="#exampleModalLabel">Create Course</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="post">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-floating m-3">
+                                            <div class="form-group">
+                                                <label for="userType">Type of User</label>
+                                                <select class="form-control" id="userType" name="userType">
+                                                <% if(locals.god == true) { %>
+                                                    <option value="Admin">Admin</option>
+                                                <% } %>
+                                                <option value="Instructor">Instructor</option>
+                                                <option value="SocialWorker">Social Worker</option>
+                                                <option value="Sponsor">Sponsor</option>
+                                                <option value="Owner">Owner</option>
+                                                </select>
+                                            </div>
+                                        </div>  
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-floating m-3">
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                                name="firstName"
+                                                id="firstName"
+                                                placeholder="First Name"
+                                                required
+                                            />
+                                            <label for="firstName" class="form-label">First Name</label>
+                                        </div>  
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-floating m-3">
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                                name="lastName"
+                                                id="lastName"
+                                                placeholder="Last Name"
+                                                required
+                                            />
+                                            <label for="lastName" class="form-label">Last Name</label>
+                                        </div>  
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-floating m-3">
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                                name="email"
+                                                id="email"
+                                                placeholder="Email"
+                                                required
+                                            />
+                                            <label for="firstName" class="form-label">Email</label>
+                                        </div>  
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-floating m-3">
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                                name="password"
+                                                id="password"
+                                                placeholder="Password"
+                                                required
+                                            />
+                                            <label for="firstName" class="form-label">Password</label>
+                                        </div>  
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <button type="submit" class="btn btn-success">Create User</button>
+                                        <input type="hidden" name="action" value="CreateUser" >
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </main>
         <!-- Bootstrap JavaScript Libraries -->
         <script

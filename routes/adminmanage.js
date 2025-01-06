@@ -3,6 +3,9 @@ var router = express.Router();
 
 var dbCon = require('../lib/database');
 
+var CryptoJS = require('crypto-js');
+var SHA256 = CryptoJS.SHA256();
+
 ManagerStorage = {}
 
 /* GET home page. */
@@ -53,6 +56,10 @@ router.post('/', function(req, res, next) {
   {
     ChangeUserType(req, res);
   }
+  else if (req.body.action == "CreateUser")
+  {
+    CreateUser(req, res);
+  }
   else
   {
     console.log("Error: Action not specified");
@@ -101,6 +108,32 @@ function ChangeUserType(req, res)
     {
       console.log("Can't touch God");
     }
+}
+
+function CreateUser(req, res)
+{
+  let salt = CryptoJS.lib.WordArray.random(8);
+  const hashedPassword = CryptoJS.SHA256(req.body.password + ":" + salt).toString(CryptoJS.enc.Hex);
+  const sql = `INSERT INTO User 
+    (FirstName, LastName, Email, Password, Salt, UserType) 
+    VALUES (?, ?, ?, ?, ?, ?)`;
+
+  const params = [
+    req.body.firstName, 
+    req.body.lastName, 
+    req.body.email, 
+    hashedPassword, 
+    salt, 
+    req.body.userType
+  ];
+
+  dbCon.execute(sql, params, function(err, results, fields) {
+    if (err) {
+      throw err;
+    } else {
+      RedirectIt(res);
+    }
+  });
 }
 
 function RedirectIt(res)
