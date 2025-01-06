@@ -65,6 +65,36 @@ function RenderIt(res)
   res.render('adminmanage', ManagerStorage);
 }
 
+// Handle assigning sponsor to student
+router.post('/assignSponsor', function(req, res, next) {
+  let sponsorID = req.body.sponsorID;
+  let studentID = req.body.studentID;
+
+  let sql = "INSERT INTO StudentSponsors (StudentID, SponsorID) VALUES (?, ?)";
+  dbCon.query(sql, [studentID, sponsorID], function(err, result) {
+    if (err) {
+      throw err;
+    } else {
+      res.redirect('/adminmanage');
+    }
+  });
+});
+
+// Handle removing sponsor from student
+router.post('/removeSponsor', function(req, res, next) {
+  let sponsorID = req.body.sponsorID;
+  let studentID = req.body.studentID;
+
+  let sql = "DELETE FROM StudentSponsors WHERE StudentID = ? AND SponsorID = ?";
+  dbCon.query(sql, [studentID, sponsorID], function(err, result) {
+    if (err) {
+      throw err;
+    } else {
+      res.redirect('/adminmanage');
+    }
+  });
+});
+
 /* Post home page. */
 router.post('/', function(req, res, next) {
   if(req.body.action == "RemoveUser")
