@@ -24,6 +24,25 @@ function GetUsers(req, res)
       else 
       {
         ManagerStorage.users = result;
+        GetStudents(req, res);
+      }
+
+    });
+}
+
+function GetStudents(req, res)
+{
+  let sql = "SELECT * \
+            FROM Student \
+            INNER JOIN Application ON Student.ApplicationID = Application.ApplicationID;";
+  dbCon.query(sql, function(err, result) {
+      if (err) 
+      {
+        throw err;
+      } 
+      else 
+      {
+        ManagerStorage.students = result;
         CheckForGodsPresence(req, res);
       }
 
@@ -59,6 +78,10 @@ router.post('/', function(req, res, next) {
   else if (req.body.action == "CreateUser")
   {
     CreateUser(req, res);
+  }
+  else if (req.body.action == "SetStatus")
+  {
+    SetStatus(req, res);
   }
   else
   {
@@ -108,6 +131,21 @@ function ChangeUserType(req, res)
     {
       console.log("Can't touch God");
     }
+}
+
+function SetStatus(req, res)
+{
+  let sql = "UPDATE Student SET Status = '" + req.body.status + "' WHERE StudentID = " + req.body.id + ";";
+  dbCon.execute(sql, function(err, result) {
+    if (err) 
+    {
+      throw err;
+    } 
+    else 
+    {
+      RedirectIt(res);
+    }
+  });
 }
 
 function CreateUser(req, res)

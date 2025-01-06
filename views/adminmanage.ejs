@@ -215,7 +215,7 @@
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="#exampleModalLabel">Create Course</h5>
+                            <h5 class="modal-title" id="#exampleModalLabel">Create User</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
@@ -307,6 +307,51 @@
                     </div>
                 </div>
             </div>
+
+            <!-- For Loop that loops the total amount of applications / 5 -->
+            <!-- Does this because I put a new row in every 5 applications-->
+            <% for(var i = 0; i < Math.ceil((locals.students.length)/5); i++) { %>
+                <div class="row">
+                    <!-- For Loop for each of the 5 applications in the row -->
+                    <% for(var j = 0; j < 5; j++) { %>
+                        <!-- If there are no more applications to place it ends -->
+                        <% if(locals.students.length <= ((i * 5) + j)) { %>
+                            <% break; %>
+                            <!-- Creates the Card and fills the information dynamically -->
+                        <% } else { %>
+                            <div class="col">
+                                <form method="post">
+                                    <% if(locals.students[((i * 5) + j)].Status == "Active") { %>
+                                        <div class="card border-success m-3" style="max-width: 18rem;">
+                                    <% } else if(locals.students[((i * 5) + j)].Status == "Inactive") { %>
+                                        <div class="card border-danger m-3" style="max-width: 18rem;">
+                                    <% } %>
+                                        <div class="card-header">Student</div>
+                                        <div class="card-body text-dark">
+                                        <h5 class="card-title"><%- locals.students[((i * 5) + j)].FirstName %>  <%- locals.students[((i * 5) + j)].LastName %></h5>
+                                        <p class="card-text"><%- locals.students[((i * 5) + j)].Status %></p>
+                                        <% if(locals.students[((i * 5) + j)].Status == "Active") { %>
+                                            <button type="submit" class="btn btn-danger">
+                                                Set Inactive
+                                            </button>
+                                            <input type="hidden" name="status" value="Inactive" >
+                                        <% } else if(locals.students[((i * 5) + j)].Status == "Inactive") { %>
+                                            <button type="submit" class="btn btn-success">
+                                                Set Active
+                                            </button>
+                                            <input type="hidden" name="status" value="Active" >
+                                        <% } %>
+                                            <input type="hidden" name="action" value="SetStatus" >
+                                            <input type="hidden" name="id" value="<%- locals.students[((i * 5) + j)].StudentID %>" >
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        <% } %>
+                    <% } %>
+                </div>
+            <% } %>
+                    
 
         </main>
         <!-- Bootstrap JavaScript Libraries -->
