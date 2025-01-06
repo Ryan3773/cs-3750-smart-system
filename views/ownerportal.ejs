@@ -67,6 +67,8 @@
                             <div class="card border-info m-3" style="max-width: 18rem;">
                                 <div class="card-header"><%- locals.students[((i * 6) + j)].name %></div>
                                 <div class="card-body text-dark">
+                                  <p><strong>Date of Birth: </strong><%= locals.students[((i * 6) + j)].dateOfBirth %></p>
+                                  <p><strong>Admission Date: </strong><%= locals.students[((i * 6) + j)].admissionDate %></p>
                                   <h6 class="card-title">Courses</h6>
                                   <ul>
                                       <% if (students[(i * 6) + j].courses.length > 0) { %>
