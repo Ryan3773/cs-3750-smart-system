@@ -1,149 +1,168 @@
 <!doctype html>
 <html lang="en">
     <head>
-        <title>Notifications</title>
+        <title>Social Worker History</title>
         <!-- Required meta tags -->
         <meta charset="utf-8" />
-        <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, shrink-to-fit=no"
-        />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
         <!-- Bootstrap CSS v5.2.1 -->
-        <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-            crossorigin="anonymous"
-        />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
         <link href="/stylesheets/header.css" rel="stylesheet">
     </head>
-
     <body>
         <header>
             <div class="px-3 py-2 bg-dark text-white">
                 <div class="container">
-                <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-                    <div class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
-                    <span>No Poor Among Us - Social Worker</span>
+                    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                        <div class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
+                            <span>No Poor Among Us - Social Worker</span>
+                        </div>
+                        <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
+                            <li>
+                                <a href="socialworkernotifications" class="nav-link text-white">
+                                    <div class="row">
+                                        <span data-feather="message-square"></span>
+                                    </div>
+                                    <div class="row gy-1" style="text-align: center;">
+                                        <span>Notifications</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li style="display: grid; align-items: center;">
+                                <a href="socialworkerhistory" class="nav-link text-secondary">
+                                    <div class="row">
+                                        <span data-feather="users"></span>
+                                    </div>
+                                    <div class="row gy-1" style="text-align: center;">
+                                        <span>Student Directory</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="socialworkerschedule" class="nav-link text-white">
+                                    <div class="row">
+                                        <span data-feather="book"></span>
+                                    </div>
+                                    <div class="row gy-1" style="text-align: center;">
+                                        <span>Schedule</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="logout" class="nav-link text-white">
+                                    <div class="row">
+                                        <span data-feather="log-out"></span>
+                                    </div>
+                                    <div class="row gy-1" style="text-align: center;">
+                                        <span>Log Out</span>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
                     </div>
-        
-                    <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
-                    <li>
-                        <a href="socialworkernotifications" class="nav-link text-white">
-                        <div class="row">
-                            <span data-feather="message-square"></span>
-                        </div>
-                        <div class="row gy-1" style="text-align: center;">
-                            <span>Notifications</span>
-                        </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="nav-link text-secondary">
-                        <div class="row">
-                            <span data-feather="clock"></span>
-                        </div>
-                        <div class="row gy-1" style="text-align: center;">
-                            <span>Social History</span>
-                        </div>
-                        </a>
-                    </li>
-                    <li style="display: grid; align-items: center;">
-                        <a href="socialworkerschedule" class="nav-link text-white">
-                        <div class="row">
-                            <span data-feather="book"></span>
-                        </div>
-                        <div class="row gy-1" style="text-align: center;">
-                            <span>Schedule</span>
-                        </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="logout" class="nav-link text-white">
-                        <div class="row">
-                            <span data-feather="log-out"></span>
-                        </div>
-                        <div class="row gy-1" style="text-align: center;">
-                            <span>Log Out</span>
-                        </div>
-                        </a>
-                    </li>
-                    </ul>
-                </div>
                 </div>
             </div>
-            </header>
+        </header>
 
-        <main>
+        <main class="container mt-4">
             <div class="row">
-                <div class="col">
-                    <div class="card border-info m-3" style="max-width: 18rem;">
-                        <div class="card-header">Student Name</div>
-                        <div class="card-body text-dark">
-                          <p class="card-text">Desc.</p>
+                <% students.forEach(student => { %>
+                    <div class="col-md-4">
+                        <div class="card border-info m-3" style="max-width: 18rem;">
+                            <div class="card-header"><%= student.FirstName %> <%= student.LastName %></div>
+                            <div class="card-body text-dark">
+                                <% if (student.Photograph) { %>
+                                    <img src="<%= student.Photograph.replace('../public/', '/') %>" class="card-img-top" alt="Student Picture">
+                                <% } %>
+                                <p>Status: <%= student.Status %></p>
+                                <p>Admission Date: <%= student.AdmissionDate %></p>
+                                <p>Enrollments: <%= student.Enrollments %></p>
+                                <p>Meal Assistance: <%= student.NeedMealAssistance ? 'Yes' : 'No' %></p>
+                                <p>Transportation Assistance: <%= student.NeedTransportationAssistance ? 'Yes' : 'No' %></p>
+                                <p>Email: <%= student.OtherContact %></p>
+                                <button class="btn btn-secondary mt-2" data-bs-toggle="modal" data-bs-target="#notesModal<%= student.StudentID %>">View Notes</button>
+                                <form method="post" action="/socialworkerhistory/updatePhoto" enctype="multipart/form-data" class="mt-2">
+                                    <input type="hidden" name="studentID" value="<%= student.StudentID %>">
+                                    <div class="mb-3">
+                                        <label for="photo<%= student.StudentID %>" class="form-label">Change Photo</label>
+                                        <input type="file" class="form-control" id="photo<%= student.StudentID %>" name="photo" accept="image/*" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Update Photo</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col">
-                    <div class="card border-info m-3" style="max-width: 18rem;">
-                        <div class="card-header">Student Name</div>
-                        <div class="card-body text-dark">
-                          <p class="card-text">Desc.</p>
+
+                    <!-- Modal for Viewing/Editing Notes -->
+                    <div class="modal fade" id="notesModal<%= student.StudentID %>" tabindex="-1" aria-labelledby="notesModalLabel<%= student.StudentID %>" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="notesModalLabel<%= student.StudentID %>">Notes for <%= student.FirstName %> <%= student.LastName %></h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div id="notesContainer<%= student.StudentID %>"></div>
+                                    <form method="post" action="/socialworkerhistory/notes">
+                                        <input type="hidden" name="studentID" value="<%= student.StudentID %>">
+                                        <div class="mb-3">
+                                            <label for="note" class="form-label">New Note</label>
+                                            <textarea class="form-control" id="note" name="note" required></textarea>
+                                        </div>
+                                        <button type="submit" class="btn btn-success">Add Note</button>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col">
-                    <div class="card border-info m-3" style="max-width: 18rem;">
-                        <div class="card-header">Student Name</div>
-                        <div class="card-body text-dark">
-                          <p class="card-text">Desc.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card border-info m-3" style="max-width: 18rem;">
-                        <div class="card-header">Student Name</div>
-                        <div class="card-body text-dark">
-                          <p class="card-text">Desc.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card border-info m-3" style="max-width: 18rem;">
-                        <div class="card-header">Student Name</div>
-                        <div class="card-body text-dark">
-                          <p class="card-text">Desc.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card border-info m-3" style="max-width: 18rem;">
-                        <div class="card-header">Student Name</div>
-                        <div class="card-body text-dark">
-                          <p class="card-text">Desc.</p>
-                        </div>
-                    </div>
-                </div>
+                <% }); %>
             </div>
         </main>
-        <!-- Bootstrap JavaScript Libraries -->
-        <script
-            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-            integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-            crossorigin="anonymous"
-        ></script>
 
-        <script
-            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
-            integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
-            crossorigin="anonymous"
-        ></script>
+        <!-- Bootstrap JavaScript Libraries -->
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
 
         <!-- Icons -->
         <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+        <script>feather.replace()</script>
+
+        <!-- Fetch and display notes -->
         <script>
-        feather.replace()
+            document.addEventListener('DOMContentLoaded', function() {
+                const modals = document.querySelectorAll('[id^="notesModal"]');
+                modals.forEach(modal => {
+                    modal.addEventListener('show.bs.modal', function(event) {
+                        const studentID = modal.id.replace('notesModal', '');
+                        fetch(`/socialworkerhistory/notes/${studentID}`)
+                            .then(response => response.json())
+                            .then(notes => {
+                                const notesContainer = document.getElementById(`notesContainer${studentID}`);
+                                notesContainer.innerHTML = '';
+                                notes.forEach(note => {
+                                    const noteDiv = document.createElement('div');
+                                    noteDiv.classList.add('mb-3');
+                                    noteDiv.innerHTML = `
+                                        <form method="post" action="/socialworkerhistory/notes/update" class="mb-3">
+                                            <input type="hidden" name="studentNoteID" value="${note.StudentNoteID}">
+                                            <div class="mb-3">
+                                                <label for="note${note.StudentNoteID}" class="form-label">Note</label>
+                                                <textarea class="form-control" id="note${note.StudentNoteID}" name="note" required>${note.Note}</textarea>
+                                            </div>
+                                            <button type="submit" class="btn btn-success">Save Changes</button>
+                                        </form>
+                                        <form method="post" action="/socialworkerhistory/notes/delete" onsubmit="return confirm('Are you sure you want to delete this note?');">
+                                            <input type="hidden" name="studentNoteID" value="${note.StudentNoteID}">
+                                            <button type="submit" class="btn btn-danger">Delete Note</button>
+                                        </form>
+                                    `;
+                                    notesContainer.appendChild(noteDiv);
+                                });
+                            });
+                    });
+                });
+            });
         </script>
     </body>
 </html>
