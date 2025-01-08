@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+
 const con = require('../lib/database');
 
 /* GET Apply page. */
@@ -33,7 +34,8 @@ router.post('/', function(req, res, next) {
 
   // Construct SQL query
   const sql = `INSERT INTO Application 
-    (FirstName, LastName, DateOfBirth, Address, SchoolLevel, PublicSchoolGPA, NeedTransportationAssistance, NeedMealAssistance, Narrative, AnnualIncome, OtherContact, ApplicationStatus) 
+    (FirstName, LastName, DateOfBirth, Address, SchoolLevel, PublicSchoolGPA, 
+    NeedTransportationAssistance, NeedMealAssistance, Narrative, AnnualIncome, OtherContact, ApplicationStatus) 
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
   const params = [

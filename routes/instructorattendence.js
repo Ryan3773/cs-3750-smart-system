@@ -1,12 +1,13 @@
 var express = require('express');
 var router = express.Router();
+
 var con = require('../lib/database');
 const util = require('util');
 
 // Promisify query
 const query = util.promisify(con.query).bind(con);
 
-/* GET attendance page. */
+/* GET instructorattendance page. */
 router.get('/', async function(req, res, next) {
   try {
     // Ensure user and courseNumber checks if needed:
@@ -38,11 +39,13 @@ router.get('/', async function(req, res, next) {
   }
 });
 
-/* POST handling for attendance actions */
+/* POST instructorattendance page */
 router.post('/record', async function(req, res, next) {
   try {
     let action = req.body.action;
+
     if (action === 'mark_attendance') {
+
       let enrollmentID = req.body.enrollmentID;
       let attendanceStatus = req.body.attendanceStatus;
       await query("CALL mark_attendance(?, ?)", [enrollmentID, attendanceStatus]);
@@ -50,6 +53,7 @@ router.post('/record', async function(req, res, next) {
       return res.redirect('/instructorattendence');
 
     } else if (action === 'update_attendance') {
+
       let attendanceID = req.body.attendanceID;
       let attendanceStatus = req.body.attendanceStatus;
       await query("CALL update_attendance(?, ?)", [attendanceID, attendanceStatus]);
@@ -57,12 +61,14 @@ router.post('/record', async function(req, res, next) {
       return res.redirect('/instructorattendence');
 
     } else if (action === 'remove_attendance') {
+
       let enrollmentID = req.body.enrollmentID;
       await query("CALL remove_attendance(?)", [enrollmentID]);
       console.log("Attendance removed for enrollmentID =", enrollmentID);
       return res.redirect('/instructorattendence');
 
     } else if (action === 'update_full_attendance') {
+
       // Updates date and status for a given attendanceID
       let attendanceID = req.body.attendanceID;
       let attendanceStatus = req.body.attendanceStatus;
@@ -72,6 +78,7 @@ router.post('/record', async function(req, res, next) {
       return res.redirect('/instructorattendence');
 
     } else if (action === 'remove_attendance_by_id') {
+
       let attendanceID = req.body.attendanceID;
       await query("CALL remove_attendance_by_id(?)", [attendanceID]);
       console.log("Attendance record removed by ID =", attendanceID);

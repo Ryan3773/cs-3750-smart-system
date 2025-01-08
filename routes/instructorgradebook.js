@@ -2,19 +2,20 @@ var express = require('express');
 var router = express.Router();
 
 var dbCon = require('../lib/database');
+
 gradebookData = {}
 groupedData = {}
 courseAssignments = [];
 
-function getGradebookData(req,res){
-    gradebookData = {}
-    groupedData = {}
-    courseAssignments = [];
-    let sql = "CALL get_course_gradebook('" + req.session.courseNumber + "')";
-    console.log("Current Course: " + req.session.courseNumber)
-    dbCon.query(sql, function(err,result) {
-      if (err) throw err;
-      console.log("instructorgradebook.js: Gradebook Queried")
+function getGradebookData(req,res) {
+  let sql = "CALL get_course_gradebook('" + req.session.courseNumber + "')";
+  console.log("Current Course: " + req.session.courseNumber);
+
+  dbCon.query(sql, function(err,result) {
+    if (err) {
+      throw err;
+    } else {
+      console.log("instructorgradebook.js: Gradebook Queried");
       gradebookData = result[0];
 
       gradebookData.forEach(row => {
@@ -47,25 +48,27 @@ function getGradebookData(req,res){
                   student.Grades[AssignmentID] = '-';
               }
           });
-      });
+        });
 
       });
-      RenderGradebook(res);
-    })
+    }
+    RenderIt(res);
+  });
 }
 
-function RenderGradebook(res){
-    res.render('instructorgradebook', {
-      students: groupedData,
-      assignments: courseAssignments,
-    });
+function RenderIt(res) {
+  res.render('instructorgradebook', {
+    students: groupedData,
+    assignments: courseAssignments,
+  });
 }
 
-/* GET instructorgradebook */
+/* GET instructorgradebook page */
 router.get('/', function(req, res, next) {
   getGradebookData(req, res)
 });
 
+/* POST instructorgradebook page */
 router.post('/', (req, res) => {
   const grades = req.body.grades; 
   const sql = `
@@ -91,7 +94,7 @@ router.post('/', (req, res) => {
           });
       });
   });
-  res.redirect('instructorgradebook')
+  res.redirect('instructorgradebook');
 });
 
 module.exports = router;
