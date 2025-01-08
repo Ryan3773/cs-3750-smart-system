@@ -5,45 +5,27 @@ var dbCon = require('../lib/database');
 
 CourseStorage = {}
 
-function GetCourses(req, res)
-{
+function GetCourses(req, res) {
   let sql = "CALL get_courses('" + req.session.userID + "')";
   dbCon.query(sql, function(err, result) {
-    if (err) 
-    {
+    if (err) {
         throw err;
-    }
-    else
-    {
+    } else {
       console.log("instructorcourses.js: Courses Collected");
 
       //Save Query Result to Object
       CourseStorage.courses = result;
-      RenderPage(res);
+      RenderIt(res);
     }
   });
 }
 
-function RenderPage(res)
-{
-  res.render('instructorcourses', CourseStorage);
-}
-
-/* GET Course page. */
-router.get('/', function(req, res, next) {
-  GetCourses(req, res);
-});
-
-function GetTermID(req, res)
-{
+function GetTermID(req, res) {
   let sql = "CALL get_term_id('" + req.body.term + "')";
   dbCon.query(sql, function(err, result) {
-    if (err) 
-    {
+    if (err) {
         throw err;
-    }
-    else
-    {
+    } else {
       console.log("instructorcourses.js: Courses Collected");
 
       //Save Query Result to Object
@@ -53,8 +35,7 @@ function GetTermID(req, res)
   });
 }
 
-function CreateCourse(req, res, termID)
-{
+function CreateCourse(req, res, termID) {
     // Construct SQL query
   const sql = `INSERT INTO Course 
     (TermID, UserID, Subject) 
@@ -79,14 +60,20 @@ function CreateCourse(req, res, termID)
   });
 }
 
-/* POST Course page. */
+function RenderIt(res) {
+  res.render('instructorcourses', CourseStorage);
+}
+
+/* GET instructorcourse page. */
+router.get('/', function(req, res, next) {
+  GetCourses(req, res);
+});
+
+/* POST instructorcourse page. */
 router.post('/', function(req, res, next) {
-  if(req.body.action == 'Create_Course')
-  {
+  if (req.body.action == 'Create_Course') {
     GetTermID(req, res);
-  }
-  else if(req.body.action == 'Add_Lecture_Time')
-  {
+  } else if (req.body.action == 'Add_Lecture_Time') {
   // Construct SQL query
   const sql = `INSERT INTO CourseTime 
     (CourseNumber, DayOfWeek, StartTime, EndTime) 
@@ -100,19 +87,14 @@ router.post('/', function(req, res, next) {
   ];
 
   dbCon.execute(sql, params, function(err, results, fields) {
-    if (err) 
-    {
+    if (err) {
       throw err;
-    } 
-    else 
-    {
+    } else {
       // Successfully inserted
       res.redirect('instructorcourses');
     }
   });
-  }
-  else if(req.body.action == 'Enter_Course')
-  {
+  } else if (req.body.action == 'Enter_Course') {
     req.session.courseNumber = req.body.CourseNumber;
     req.session.save(function(err) {
       if (err) {
@@ -121,10 +103,8 @@ router.post('/', function(req, res, next) {
      
       res.redirect('instructorassessments');
     });
-  }
-  else
-  {
-    console.log("NO Action Selected");
+  } else {
+    console.log("No Action Selected");
   }
 });
 

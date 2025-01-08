@@ -1,8 +1,10 @@
 var express = require('express');
 var router = express.Router();
+
 var dbCon = require('../lib/database');
 var PDFDocument = require('pdfkit');
 
+/* GET instructorcertificates.js page */
 // Fetch courses taught by the instructor
 router.get('/', function(req, res, next) {
   let userID = req.session.userID; // Assuming the user ID is stored in the session
@@ -30,25 +32,6 @@ router.get('/students/:courseNumber', function(req, res, next) {
   });
 });
 
-// Update certificate status
-router.post('/updateCertificate', function(req, res, next) {
-  let enrollmentID = req.body.enrollmentID;
-  let certificateAchieved = req.body.certificateAchieved === 'true';
-
-  if (!enrollmentID) {
-    return res.status(400).send('Enrollment ID is required');
-  }
-
-  let sql = "CALL update_certificate_status(?, ?)";
-  dbCon.query(sql, [enrollmentID, certificateAchieved], function(err, result) {
-    if (err) {
-      throw err;
-    } else {
-      res.redirect('/instructorcertificates');
-    }
-  });
-});
-
 // Print certificate
 router.get('/printCertificate/:studentID/:courseNumber', function(req, res, next) {
   let studentID = req.params.studentID;
@@ -63,6 +46,7 @@ router.get('/printCertificate/:studentID/:courseNumber', function(req, res, next
     JOIN Course c ON e.CourseNumber = c.CourseNumber
     WHERE s.StudentID = ? AND c.CourseNumber = ?;
   `;
+  
   dbCon.query(sql, [studentID, courseNumber], function(err, result) {
     if (err) {
       throw err;
@@ -86,6 +70,26 @@ router.get('/printCertificate/:studentID/:courseNumber', function(req, res, next
 
       // Finalize the PDF and end the stream
       doc.end();
+    }
+  });
+});
+
+/* POST instructorcertificates.js page */
+// Update certificate status
+router.post('/updateCertificate', function(req, res, next) {
+  let enrollmentID = req.body.enrollmentID;
+  let certificateAchieved = req.body.certificateAchieved === 'true';
+
+  if (!enrollmentID) {
+    return res.status(400).send('Enrollment ID is required');
+  }
+
+  let sql = "CALL update_certificate_status(?, ?)";
+  dbCon.query(sql, [enrollmentID, certificateAchieved], function(err, result) {
+    if (err) {
+      throw err;
+    } else {
+      res.redirect('/instructorcertificates');
     }
   });
 });

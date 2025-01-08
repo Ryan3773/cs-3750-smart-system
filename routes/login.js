@@ -10,11 +10,11 @@ function GetSalt(req, res) {
     const email = req.body.email;
     req.session.email = email;
     let sql = "CALL get_salt('" + email + "')";
+
     dbCon.query(sql, function(err, results) {
         if (err) {
             throw err;
-        }
-        if (results[0][0] === undefined) {
+        } else if (results[0][0] === undefined) {
             console.log("login: No results found");
             res.render('login', {message: "User '" + email + "' not found"});
         } else {
@@ -25,53 +25,39 @@ function GetSalt(req, res) {
     });
 }
 
-function CheckUserType(req, res, salt, email)
-{
+function CheckUserType(req, res, salt, email) {
     sql = "CALL get_user_type('" + email + "')";
-          dbCon.query(sql, function(err, results) {
-            if (err) {
-                throw err;
-            }
 
-            if (results[0][0] === undefined) {
-                console.log("login: No results found");
-                res.render('login', {message: "User '" + email + "' not found"});
-            }
+    dbCon.query(sql, function(err, results) {
+      if (err) {
+          throw err;
+      } else if (results[0][0] === undefined) {
+          console.log("login: No results found");
+          res.render('login', {message: "User '" + email + "' not found"});
+      } else {
+      const userType = results[0][0].UserType;
 
-            const userType = results[0][0].UserType;
+      link = '';
+      if(userType == 'Admin') {
+        link = 'adminmanage'
+      } else if(userType == 'Instructor') {
+        link = 'instructorcourses';
+      } else if(userType == 'SocialWorker') {
+        link = 'socialworkernotifications';
+      } else if(userType == 'Sponsor') {
+        link = 'sponsorportal';
+      } else if(userType == 'Owner') {
+        link = 'ownerportal';
+      } else {
+        console.log("UserType isn't one of the choices");
+      }
 
-            link = '';
-            if(userType == 'Admin')
-            {
-              link = 'adminmanage'
-            }
-            else if(userType == 'Instructor')
-            {
-              link = 'instructorcourses';
-            }
-            else if(userType == 'SocialWorker')
-            {
-              link = 'socialworkernotifications';
-            }
-            else if(userType == 'Sponsor')
-            {
-              link = 'sponsorportal';
-            }
-            else if(userType == 'Owner')
-            {
-              link = 'ownerportal';
-            }
-            else
-            {
-              console.log("UserType isn't one of the choices");
-            }
-
-            CheckCredentials(req, res, salt, email, link)
-        });
+      CheckCredentials(req, res, salt, email, link);
+    }
+  });
 }
 
-function CheckCredentials(req, res, salt, email, link)
-{
+function CheckCredentials(req, res, salt, email, link) {
     const password = req.body.password;
     const hashedPassword = CryptoJS.SHA256(password + ":" + salt).toString(CryptoJS.enc.Hex);
     console.log(hashedPassword);
@@ -94,8 +80,7 @@ function CheckCredentials(req, res, salt, email, link)
     });
 }
 
-function SaveUserID(req, res, email, link)
-{
+function SaveUserID(req, res, email, link) {
   let sql = "CALL get_user_id('" + email + "')";
     dbCon.query(sql, function(err, results) {
         if (err) {
@@ -118,8 +103,7 @@ function SaveUserID(req, res, email, link)
     });
 }
 
-function RedirectIt(res, link)
-{
+function RedirectIt(res, link) {
   console.log(link);
   res.redirect(link);
 }

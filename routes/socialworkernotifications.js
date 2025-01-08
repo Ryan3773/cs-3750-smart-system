@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var dbCon = require('../lib/database');
 
+/* GET socialworkernotification page */
 // Fetch absent attendance records
 router.get('/', function(req, res, next) {
   let sql = "CALL get_absent_attendance()";

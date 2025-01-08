@@ -3,18 +3,21 @@ var router = express.Router();
 
 var dbCon = require('../lib/database');
 
-function GetStudentData(req, res){
-
+function GetStudentData(req, res) {
   let sql = "CALL get_students_for_owners()";
+
   dbCon.query(sql, function(err,result) {
-    if (err) throw err;
-    console.log("ownerportal.js: Assignments Queried")
-    data = result[0]
-    RenderOwnerPortal(res, data)
-  })
+    if (err) {
+      throw err;
+    } else {
+      console.log("ownerportal.js: Assignments Queried");
+      data = result[0];
+      RenderOwnerPortal(res, data);
+    }
+  });
 }
 
-function RenderOwnerPortal(res, data){
+function RenderOwnerPortal(res, data) {
   const processedData = data.map(student => {
     // Handle null or empty CourseDetails
     const courses = student.CourseDetails
@@ -22,8 +25,8 @@ function RenderOwnerPortal(res, data){
             courseDetail = courseDetail.trim();
 
             const splitDetail = courseDetail.split(',');
-            const courseName = splitDetail[0]?.trim()
-            const certificate = splitDetail[1]?.trim()
+            const courseName = splitDetail[0]?.trim();
+            const certificate = splitDetail[1]?.trim();
 
             return { name: courseName, certificate: certificate };
         })
@@ -36,13 +39,13 @@ function RenderOwnerPortal(res, data){
         dateOfBirth: new Date(student.DateOfBirth).toLocaleDateString(),
         courses: courses
     };
-});
-res.render('ownerportal', { students: processedData });
+  });
+  res.render('ownerportal', { students: processedData });
 }
 
-/* GET home page. */
+/* GET ownerportal page. */
 router.get('/', function(req, res, next) {
-  GetStudentData(req,res)
+  GetStudentData(req,res);
 });
 
 module.exports = router;
